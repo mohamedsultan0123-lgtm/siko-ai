@@ -1,0 +1,9 @@
+{
+  "name": "Siko AI",
+  "short_name": "Siko",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F6F7FB",
+  "theme_color": "#6758F5",
+  "description": "Siko AI - Arabic-first smart learning and conversation assistant."
+}

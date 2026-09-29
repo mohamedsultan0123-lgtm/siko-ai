@@ -1,0 +1,3112 @@
+﻿===== PROJECT TREE =====
+.gitignore
+analysis_options.yaml
+DESIGN_SPEC.md
+PATCH_README.txt
+project_snapshot.txt
+pubspec.yaml
+README.md
+setup_windows.bat
+android\build.gradle
+android\gradle.properties
+android\settings.gradle
+android\app\build.gradle
+android\app\src\main\AndroidManifest.xml
+android\app\src\main\kotlin\com\example\siko_ai\MainActivity.kt
+android\app\src\main\res\drawable\ic_launcher.xml
+android\app\src\main\res\drawable\launch_background.xml
+android\app\src\main\res\values\styles.xml
+android\app\src\main\res\values-night\styles.xml
+android\gradle\wrapper\gradle-wrapper.properties
+assets\README.txt
+assets\siko_logo.svg
+ios\.gitignore
+ios\Podfile
+ios\Flutter\AppFrameworkInfo.plist
+ios\Flutter\Debug.xcconfig
+ios\Flutter\Release.xcconfig
+ios\Runner\AppDelegate.swift
+ios\Runner\Info.plist
+ios\Runner\Runner-Bridging-Header.h
+ios\Runner\Assets.xcassets\Contents.json
+ios\Runner\Assets.xcassets\AppIcon.appiconset\Contents.json
+ios\Runner\Assets.xcassets\LaunchImage.imageset\Contents.json
+ios\Runner\Base.lproj\LaunchScreen.storyboard
+ios\Runner\Base.lproj\Main.storyboard
+ios\Runner.xcodeproj\project.pbxproj
+ios\Runner.xcodeproj\project.xcworkspace\contents.xcworkspacedata
+ios\Runner.xcodeproj\xcshareddata\xcschemes\Runner.xcscheme
+ios\Runner.xcworkspace\contents.xcworkspacedata
+ios\Runner.xcworkspace\xcshareddata\WorkspaceSettings.xcsettings
+ios\RunnerTests\RunnerTests.swift
+lib\app.dart
+lib\main.dart
+lib\config\app_config.dart
+lib\models\chat_message.dart
+lib\models\user_profile.dart
+lib\screens\chat_screen.dart
+lib\screens\home_screen.dart
+lib\screens\learn_screen.dart
+lib\screens\profile_setup_screen.dart
+lib\screens\settings_screen.dart
+lib\screens\voice_screen.dart
+lib\services\ai_service.dart
+lib\services\avatar_service.dart
+lib\services\profile_store.dart
+lib\services\speech_service.dart
+lib\services\theme_store.dart
+lib\services\tts_service.dart
+lib\theme\app_theme.dart
+lib\widgets\feature_card.dart
+lib\widgets\section_title.dart
+lib\widgets\siko_avatar.dart
+test\user_profile_test.dart
+tools\android_manifest_patch.xml
+tools\setup_windows.ps1
+web\index.html
+web\manifest.json
+
+
+===== FILE CONTENTS =====
+
+
+==================================================
+FILE: analysis_options.yaml
+==================================================
+
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    prefer_single_quotes: true
+    avoid_print: true
+
+
+
+==================================================
+FILE: android\app\build.gradle
+==================================================
+
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace = "com.example.siko_ai"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    defaultConfig {
+        applicationId = "com.example.siko_ai"
+        minSdk = 29
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+
+
+==================================================
+FILE: android\app\src\main\AndroidManifest.xml
+==================================================
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:label="Siko AI"
+        android:name="${applicationName}"
+        android:icon="@drawable/ic_launcher">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+</manifest>
+
+
+
+==================================================
+FILE: android\app\src\main\res\drawable\ic_launcher.xml
+==================================================
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path android:fillColor="#1F2937" android:pathData="M12,16a12,12 0,0 1,24 0v16a8,8 0,0 1,-8 8H20a8,8 0,0 1,-8 -8z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M18,22a3,3 0,1 0,6 0a3,3 0,1 0,-6 0M30,22a3,3 0,1 0,6 0a3,3 0,1 0,-6 0"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M18,30h12v3H18z"/>
+</vector>
+
+
+
+==================================================
+FILE: android\app\src\main\res\drawable\launch_background.xml
+==================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:color/white" />
+</layer-list>
+
+
+
+==================================================
+FILE: android\app\src\main\res\values\styles.xml
+==================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="LaunchTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+</resources>
+
+
+
+==================================================
+FILE: android\app\src\main\res\values-night\styles.xml
+==================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="LaunchTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+</resources>
+
+
+
+==================================================
+FILE: android\build.gradle
+==================================================
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
+
+
+==================================================
+FILE: android\gradle.properties
+==================================================
+
+org.gradle.jvmargs=-Xmx1536M -Dfile.encoding=UTF-8
+android.useAndroidX=true
+android.enableJetifier=true
+
+
+
+==================================================
+FILE: android\gradle\wrapper\gradle-wrapper.properties
+==================================================
+
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.10.2-bin.zip
+networkTimeout=10000
+validateDistributionUrl=true
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+
+
+
+==================================================
+FILE: android\settings.gradle
+==================================================
+
+pluginManagement {
+    def flutterSdkPath = {
+        def properties = new Properties()
+        file("local.properties").withInputStream { properties.load(it) }
+        def flutterSdkPath = properties.getProperty("flutter.sdk")
+        assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+        return flutterSdkPath
+    }()
+
+    includeBuild("${flutterSdkPath}/packages/flutter_tools/gradle")
+
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+    id "com.android.application" version "8.7.3" apply false
+    id "org.jetbrains.kotlin.android" version "2.1.0" apply false
+}
+
+include ":app"
+
+
+
+==================================================
+FILE: DESIGN_SPEC.md
+==================================================
+
+# Siko UI Design Specification
+
+## Visual direction
+
+Arabic-first, friendly, modern, rounded Material 3 interface.
+The visual language uses a soft light background, cards with large rounded corners, a purple-indigo seed color, clear icons, and a large central avatar.
+
+## Screen 01 â€” Profile Setup
+
+Purpose: first-run identity and assistant setup.
+
+Elements:
+- User name
+- Assistant name
+- Learning language: English / French
+- English variety: American / British
+- Avatar selector
+- Default animated robot
+- Save / start CTA
+
+## Screen 02 â€” Home
+
+Purpose: one-tap access to the main experiences.
+
+Hero:
+- Greeting with user name
+- Large avatar
+- Quick action: Voice chat
+- Quick action: Text chat
+
+Feature cards:
+- Learn English
+- Learn French
+- Tell Siko about your day
+
+## Screen 03 â€” Learning
+
+Purpose: language learning home.
+
+Elements:
+- Language switcher
+- Current level/progress
+- Daily lesson
+- Listen to example
+- Start exercise
+- Learning paths: pronunciation, vocabulary, grammar, real-life situations
+
+## Screen 04 â€” Chat
+
+Purpose: free conversation.
+
+Elements:
+- Siko avatar in app bar
+- User/assistant message bubbles
+- Voice replay on assistant messages
+- Text composer
+- Send button
+
+## Screen 05 â€” Voice Chat
+
+Purpose: live voice interaction.
+
+States:
+- Idle
+- Listening
+- Thinking
+- Speaking
+
+Elements:
+- Large animated avatar
+- Transcript
+- AI response
+- Microphone action button
+- Current speech locale
+
+## Screen 06 â€” Settings
+
+Purpose: change profile and see technical state.
+
+Elements:
+- Current avatar and profile
+- Edit profile
+- AI mode indicator
+- Privacy note
+- Voice note
+- About dialog
+
+## Avatar behavior
+
+The default avatar is a vector robot drawn with CustomPainter, so it needs no image asset.
+
+A custom gallery image can replace it at runtime. The same animation states remain around the image. Later, add true lip-sync and expression layers without changing the navigation structure.
+
+
+
+==================================================
+FILE: ios\Runner\Assets.xcassets\AppIcon.appiconset\Contents.json
+==================================================
+
+{
+  "images" : [
+    {"size" : "20x20", "idiom" : "iphone", "filename" : "Icon-App-20x20@2x.png", "scale" : "2x"},
+    {"size" : "20x20", "idiom" : "iphone", "filename" : "Icon-App-20x20@3x.png", "scale" : "3x"},
+    {"size" : "29x29", "idiom" : "iphone", "filename" : "Icon-App-29x29@1x.png", "scale" : "1x"},
+    {"size" : "29x29", "idiom" : "iphone", "filename" : "Icon-App-29x29@2x.png", "scale" : "2x"},
+    {"size" : "29x29", "idiom" : "iphone", "filename" : "Icon-App-29x29@3x.png", "scale" : "3x"},
+    {"size" : "40x40", "idiom" : "iphone", "filename" : "Icon-App-40x40@2x.png", "scale" : "2x"},
+    {"size" : "40x40", "idiom" : "iphone", "filename" : "Icon-App-40x40@3x.png", "scale" : "3x"},
+    {"size" : "60x60", "idiom" : "iphone", "filename" : "Icon-App-60x60@2x.png", "scale" : "2x"},
+    {"size" : "60x60", "idiom" : "iphone", "filename" : "Icon-App-60x60@3x.png", "scale" : "3x"},
+    {"size" : "20x20", "idiom" : "ipad", "filename" : "Icon-App-20x20@1x.png", "scale" : "1x"},
+    {"size" : "20x20", "idiom" : "ipad", "filename" : "Icon-App-20x20@2x.png", "scale" : "2x"},
+    {"size" : "29x29", "idiom" : "ipad", "filename" : "Icon-App-29x29@1x.png", "scale" : "1x"},
+    {"size" : "29x29", "idiom" : "ipad", "filename" : "Icon-App-29x29@2x.png", "scale" : "2x"},
+    {"size" : "40x40", "idiom" : "ipad", "filename" : "Icon-App-40x40@1x.png", "scale" : "1x"},
+    {"size" : "40x40", "idiom" : "ipad", "filename" : "Icon-App-40x40@2x.png", "scale" : "2x"},
+    {"size" : "76x76", "idiom" : "ipad", "filename" : "Icon-App-76x76@1x.png", "scale" : "1x"},
+    {"size" : "76x76", "idiom" : "ipad", "filename" : "Icon-App-76x76@2x.png", "scale" : "2x"},
+    {"size" : "83.5x83.5", "idiom" : "ipad", "filename" : "Icon-App-83.5x83.5@2x.png", "scale" : "2x"},
+    {"size" : "1024x1024", "idiom" : "ios-marketing", "filename" : "Icon-App-1024x1024@1x.png", "scale" : "1x"}
+  ],
+  "info" : {"version" : 1, "author" : "xcode"}
+}
+
+
+
+==================================================
+FILE: ios\Runner\Assets.xcassets\Contents.json
+==================================================
+
+{
+  "info" : {"version" : 1, "author" : "xcode"}
+}
+
+
+
+==================================================
+FILE: ios\Runner\Assets.xcassets\LaunchImage.imageset\Contents.json
+==================================================
+
+{
+  "images" : [
+    {"idiom" : "universal", "filename" : "LaunchImage.png", "scale" : "1x"},
+    {"idiom" : "universal", "filename" : "LaunchImage@2x.png", "scale" : "2x"},
+    {"idiom" : "universal", "filename" : "LaunchImage@3x.png", "scale" : "3x"}
+  ],
+  "info" : {"version" : 1, "author" : "xcode"}
+}
+
+
+
+==================================================
+FILE: lib\app.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+import 'screens/home_screen.dart';
+import 'screens/profile_setup_screen.dart';
+import 'screens/settings_screen.dart';
+import 'services/profile_store.dart';
+import 'services/theme_store.dart';
+import 'theme/app_theme.dart';
+
+class SikoApp extends StatelessWidget {
+  const SikoApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: ThemeStore.instance,
+      builder: (context, _) => MaterialApp(
+        title: 'Siko AI',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
+        themeMode: ThemeStore.instance.isDark ? ThemeMode.dark : ThemeMode.light,
+        home: ListenableBuilder(
+          listenable: ProfileStore.instance,
+          builder: (context, _) {
+            final profile = ProfileStore.instance.profile;
+            if (profile == null) return const ProfileSetupScreen();
+            return const HomeScreen();
+          },
+        ),
+        routes: {
+          '/home': (_) => const HomeScreen(),
+          '/profile': (_) => const ProfileSetupScreen(editMode: true),
+          '/settings': (_) => const SettingsScreen(),
+        },
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\config\app_config.dart
+==================================================
+
+class AppConfig {
+  AppConfig._();
+
+  // Leave empty for Demo/Offline mode.
+  // Never commit a real production API key to source control.
+  static const geminiApiKey = '';
+
+  // Replace with a currently supported Gemini model if needed.
+  // Keeping this value here makes the AI service easy to change later.
+  static const geminiModel = 'gemini-2.5-flash-lite';
+
+  static const geminiEndpoint =
+      'https://generativelanguage.googleapis.com/v1beta/models';
+}
+
+
+
+==================================================
+FILE: lib\main.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+import 'app.dart';
+import 'services/profile_store.dart';
+import 'services/theme_store.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ProfileStore.instance.load();
+  await ThemeStore.instance.load();
+  runApp(const SikoApp());
+}
+
+
+
+==================================================
+FILE: lib\models\chat_message.dart
+==================================================
+
+enum MessageAuthor { user, assistant }
+
+class ChatMessage {
+  const ChatMessage({
+    required this.text,
+    required this.author,
+    this.isVoice = false,
+    this.timestamp,
+  });
+
+  final String text;
+  final MessageAuthor author;
+  final bool isVoice;
+  final DateTime? timestamp;
+}
+
+
+
+==================================================
+FILE: lib\models\user_profile.dart
+==================================================
+
+enum UserGender { male, female }
+
+enum AvatarPreset {
+  robotNeon,
+  robotClassic,
+  robotFriendly,
+  womanLight,
+  womanDark,
+  womanHijabLight,
+  womanHijabDark,
+  manLight,
+  manDark,
+  customPhoto,
+}
+
+class UserProfile {
+  const UserProfile({
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.assistantName,
+    required this.learningLanguage,
+    required this.englishVariant,
+    required this.avatarPreset,
+    this.avatarBase64,
+    this.avatarPath,
+  });
+
+  final String firstName;
+  final String lastName;
+  final UserGender gender;
+  final String assistantName;
+  final String learningLanguage;
+  final String englishVariant;
+  final AvatarPreset avatarPreset;
+  final String? avatarBase64;
+  final String? avatarPath;
+
+  String get userName => [firstName.trim(), lastName.trim()]
+      .where((e) => e.isNotEmpty)
+      .join(' ');
+
+  String get safeAssistantName => assistantName.trim().isEmpty ? 'Ø³ÙŠÙƒÙˆ' : assistantName.trim();
+
+  bool get isFemale => gender == UserGender.female;
+
+  String get learnVerb => isFemale ? 'Ø§ØªØ¹Ù„Ù…ÙŠ' : 'Ø§ØªØ¹Ù„Ù…';
+  String get chooseVerb => isFemale ? 'Ø§Ø®ØªØ§Ø±ÙŠ' : 'Ø§Ø®ØªØ§Ø±';
+  String get practiceVerb => isFemale ? 'Ù…Ø§Ø±Ø³ÙŠ' : 'Ù…Ø§Ø±Ø³';
+
+  UserProfile copyWith({
+    String? firstName,
+    String? lastName,
+    UserGender? gender,
+    String? assistantName,
+    String? learningLanguage,
+    String? englishVariant,
+    AvatarPreset? avatarPreset,
+    String? avatarBase64,
+    String? avatarPath,
+    bool clearAvatarData = false,
+  }) {
+    return UserProfile(
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      gender: gender ?? this.gender,
+      assistantName: assistantName ?? this.assistantName,
+      learningLanguage: learningLanguage ?? this.learningLanguage,
+      englishVariant: englishVariant ?? this.englishVariant,
+      avatarPreset: avatarPreset ?? this.avatarPreset,
+      avatarBase64: clearAvatarData ? null : (avatarBase64 ?? this.avatarBase64),
+      avatarPath: clearAvatarData ? null : (avatarPath ?? this.avatarPath),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'firstName': firstName,
+        'lastName': lastName,
+        'gender': gender.name,
+        'userName': userName, // backward compatibility with older builds
+        'assistantName': safeAssistantName,
+        'learningLanguage': learningLanguage,
+        'englishVariant': englishVariant,
+        'avatarPreset': avatarPreset.name,
+        'avatarBase64': avatarBase64,
+        'avatarPath': avatarPath,
+      };
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    final legacyName = json['userName'] as String? ?? '';
+    final parts = legacyName.trim().split(RegExp(r'\s+'));
+    final first = (json['firstName'] as String?)?.trim() ??
+        (parts.isNotEmpty ? parts.first : '');
+    final last = (json['lastName'] as String?)?.trim() ??
+        (parts.length > 1 ? parts.sublist(1).join(' ') : '');
+
+    final rawGender = json['gender'] as String? ?? 'male';
+    final gender = UserGender.values.firstWhere(
+      (value) => value.name == rawGender,
+      orElse: () => UserGender.male,
+    );
+
+    final rawPreset = json['avatarPreset'] as String? ?? AvatarPreset.robotNeon.name;
+    final preset = AvatarPreset.values.firstWhere(
+      (value) => value.name == rawPreset,
+      orElse: () => AvatarPreset.robotNeon,
+    );
+
+    return UserProfile(
+      firstName: first,
+      lastName: last,
+      gender: gender,
+      assistantName: (json['assistantName'] as String?)?.trim().isNotEmpty == true
+          ? (json['assistantName'] as String).trim()
+          : 'Ø³ÙŠÙƒÙˆ',
+      learningLanguage: json['learningLanguage'] as String? ?? 'English',
+      englishVariant: json['englishVariant'] as String? ?? 'American',
+      avatarPreset: preset,
+      avatarBase64: json['avatarBase64'] as String?,
+      avatarPath: json['avatarPath'] as String?,
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\screens\chat_screen.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+import '../models/chat_message.dart';
+import '../services/ai_service.dart';
+import '../services/profile_store.dart';
+import '../services/speech_service.dart';
+import '../services/tts_service.dart';
+import '../widgets/siko_avatar.dart';
+
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final _controller = TextEditingController();
+  final _scrollController = ScrollController();
+  final _ai = const AiService();
+  final _speech = SpeechService();
+  final _tts = TtsService();
+  final List<ChatMessage> _messages = [];
+  bool _thinking = false;
+  bool _speaking = false;
+  bool _listening = false;
+
+  UserProfile get _profile => ProfileStore.instance.profile!;
+
+  String get _localeId {
+    if (_profile.learningLanguage == 'French') return 'fr_FR';
+    return _profile.englishVariant == 'British' ? 'en_GB' : 'en_US';
+  }
+
+  String get _ttsLocale {
+    if (_profile.learningLanguage == 'French') return 'fr-FR';
+    return _profile.englishVariant == 'British' ? 'en-GB' : 'en-US';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _tts.onSpeakingChanged = (value) {
+      if (mounted) setState(() => _speaking = value);
+    };
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    _speech.stop();
+    _tts.stop();
+    super.dispose();
+  }
+
+  Future<void> _toggleMic() async {
+    if (_listening) {
+      await _speech.stop(onListeningChanged: (v) {
+        if (mounted) setState(() => _listening = v);
+      });
+      if (_controller.text.trim().isNotEmpty) await _send();
+      return;
+    }
+
+    final started = await _speech.listen(
+      localeId: _localeId,
+      onText: (text) {
+        if (mounted) setState(() => _controller.text = text);
+      },
+      onListeningChanged: (v) {
+        if (mounted) setState(() => _listening = v);
+      },
+    );
+    if (!started && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Ù„Ù… Ø£Ø³ØªØ·Ø¹ ØªØ´ØºÙŠÙ„ Ø§Ù„Ù…ÙŠÙƒØ±ÙˆÙÙˆÙ†. Ø§Ø³Ù…Ø­ Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ù…ÙŠÙƒØ±ÙˆÙÙˆÙ† Ù…Ù† Ø§Ù„Ù…ØªØµÙØ­ Ø£Ùˆ Ø§Ù„Ù‡Ø§ØªÙ.')));
+    }
+  }
+
+  Future<void> _send() async {
+    final text = _controller.text.trim();
+    if (text.isEmpty || _thinking) return;
+    _controller.clear();
+    if (_listening) await _speech.stop(onListeningChanged: (_) {});
+
+    setState(() {
+      _listening = false;
+      _messages.add(ChatMessage(text: text, author: MessageAuthor.user, timestamp: DateTime.now()));
+      _thinking = true;
+    });
+    _jumpToEnd();
+
+    final reply = await _ai.reply(userText: text, profile: _profile);
+    if (!mounted) return;
+    setState(() {
+      _thinking = false;
+      _messages.add(ChatMessage(text: reply, author: MessageAuthor.assistant, timestamp: DateTime.now()));
+    });
+    _jumpToEnd();
+  }
+
+  void _jumpToEnd() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 260), curve: Curves.easeOut);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final profile = _profile;
+    final mode = _listening
+        ? AvatarAnimationMode.listening
+        : _thinking
+            ? AvatarAnimationMode.thinking
+            : _speaking
+                ? AvatarAnimationMode.speaking
+                : AvatarAnimationMode.idle;
+    return Scaffold(
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(18, 12, 18, 14),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Theme.of(context).colorScheme.primary.withOpacity(.12), Theme.of(context).colorScheme.surface],
+              ),
+            ),
+            child: SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text('Ù…Ø­Ø§Ø¯Ø«Ø© Ù…Ø¹ ${profile.safeAssistantName}', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900)),
+                      const Spacer(),
+                      IconButton(onPressed: () => Navigator.pushNamed(context, '/profile'), icon: const Icon(Icons.tune_rounded)),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  SizedBox(
+                    height: 206,
+                    child: SikoAvatar(
+                      imageBase64: profile.avatarBase64,
+                      imagePath: profile.avatarPath,
+                      preset: profile.avatarPreset,
+                      mode: mode,
+                      size: 190,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(99),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.chat_bubble_rounded, size: 15, color: Theme.of(context).colorScheme.primary),
+                        const SizedBox(width: 7),
+                        Text(
+                          _listening ? 'Ø³ÙŠÙƒÙˆ Ø¨ÙŠØ³Ù…Ø¹Ùƒ' : _thinking ? 'Ø³ÙŠÙƒÙˆ Ø¨ÙŠÙÙƒØ±' : _speaking ? 'Ø³ÙŠÙƒÙˆ Ø¨ÙŠØªÙƒÙ„Ù…' : 'Ø§Ù„Ù…Ø­Ø§Ø¯Ø«Ø© Ø´ØºØ§Ù„Ø©',
+                          style: const TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                        const SizedBox(width: 6),
+                        Container(width: 8, height: 8, decoration: BoxDecoration(color: _listening ? Colors.orange : Colors.green, shape: BoxShape.circle)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: _messages.isEmpty
+                ? _EmptyChat(profileName: profile.userName, onPrompt: (prompt) { _controller.text = prompt; _send(); })
+                : ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
+                    itemCount: _messages.length + (_thinking ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (_thinking && index == _messages.length) return const _ThinkingBubble();
+                      final message = _messages[index];
+                      return _MessageBubble(message: message, onSpeak: message.author == MessageAuthor.assistant ? () => _tts.speak(message.text, _ttsLocale) : null);
+                    },
+                  ),
+          ),
+          SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 5, 12, 12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Material(
+                    color: _listening ? Theme.of(context).colorScheme.errorContainer : Theme.of(context).colorScheme.primaryContainer,
+                    shape: const CircleBorder(),
+                    child: IconButton(
+                      tooltip: 'Ø§Ù„Ù…ÙŠÙƒØ±ÙˆÙÙˆÙ†',
+                      onPressed: _thinking ? null : _toggleMic,
+                      icon: Icon(_listening ? Icons.stop_rounded : Icons.mic_rounded),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      minLines: 1,
+                      maxLines: 4,
+                      decoration: const InputDecoration(hintText: 'Ø§ÙƒØªØ¨ Ù„Ø³ÙŠÙƒÙˆ Ø£Ùˆ Ø§Ø³ØªØ®Ø¯Ù… Ø§Ù„Ù…ÙŠÙƒØ±ÙˆÙÙˆÙ†...', prefixIcon: Icon(Icons.chat_outlined)),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  FloatingActionButton(
+                    heroTag: 'chat_send',
+                    onPressed: _thinking ? null : _send,
+                    child: const Icon(Icons.send_rounded),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _EmptyChat extends StatelessWidget {
+  const _EmptyChat({required this.profileName, required this.onPrompt});
+  final String profileName;
+  final void Function(String) onPrompt;
+
+  @override
+  Widget build(BuildContext context) {
+    final prompts = ['Ø¹Ø±Ù Ù†ÙØ³Ùƒ', 'Ø¹Ø§ÙŠØ² Ø£ØªØ¹Ù„Ù… Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠ', 'Ø¹Ø§ÙŠØ² Ø£ØªØ¹Ù„Ù… ÙØ±Ù†Ø³ÙŠ', 'Ù…Ù…ÙƒÙ† Ù†ØªÙƒÙ„Ù… Ø¹Ù† ÙŠÙˆÙ…ÙŠØŸ'];
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Ø£Ù‡Ù„Ø§Ù‹ $profileName ðŸ‘‹', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900)),
+            const SizedBox(height: 8),
+            const Text('Ø§Ø¨Ø¯Ø£ Ø¨ÙƒÙ„Ù…Ø© ÙˆØ§Ø­Ø¯Ø©ØŒ ÙˆØ³ÙŠÙƒÙˆ ÙŠÙƒÙ…Ù„ Ù…Ø¹Ø§Ùƒ Ø§Ù„Ù…Ø­Ø§Ø¯Ø«Ø©.', textAlign: TextAlign.center),
+            const SizedBox(height: 18),
+            Wrap(alignment: WrapAlignment.center, spacing: 8, runSpacing: 8, children: prompts.map((p) => ActionChip(label: Text(p), onPressed: () => onPrompt(p))).toList()),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MessageBubble extends StatelessWidget {
+  const _MessageBubble({required this.message, this.onSpeak});
+  final ChatMessage message;
+  final VoidCallback? onSpeak;
+
+  @override
+  Widget build(BuildContext context) {
+    final isUser = message.author == MessageAuthor.user;
+    final scheme = Theme.of(context).colorScheme;
+    return Align(
+      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 380),
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.fromLTRB(14, 11, 8, 8),
+        decoration: BoxDecoration(
+          color: isUser ? scheme.primaryContainer : scheme.surfaceContainerHighest.withOpacity(.72),
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(20),
+            topRight: const Radius.circular(20),
+            bottomLeft: Radius.circular(isUser ? 20 : 6),
+            bottomRight: Radius.circular(isUser ? 6 : 20),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Flexible(child: Text(message.text, style: const TextStyle(fontSize: 16, height: 1.45))),
+            if (onSpeak != null) IconButton(onPressed: onSpeak, icon: const Icon(Icons.volume_up_outlined), visualDensity: VisualDensity.compact),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ThinkingBubble extends StatelessWidget {
+  const _ThinkingBubble();
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHighest, borderRadius: BorderRadius.circular(18)),
+        child: const SizedBox(width: 46, child: LinearProgressIndicator(minHeight: 4)),
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\screens\home_screen.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+import '../models/user_profile.dart';
+import '../services/profile_store.dart';
+import '../widgets/feature_card.dart';
+import '../widgets/siko_avatar.dart';
+import 'chat_screen.dart';
+import 'learn_screen.dart';
+import 'settings_screen.dart';
+import 'voice_screen.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _index = 0;
+  final _pages = const [
+    _DashboardTab(),
+    LearnScreen(),
+    ChatScreen(),
+    SettingsScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        body: SafeArea(child: _pages[_index]),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _index,
+          onDestinationSelected: (value) => setState(() => _index = value),
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home_rounded), label: 'Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©'),
+            NavigationDestination(icon: Icon(Icons.school_outlined), selectedIcon: Icon(Icons.school_rounded), label: 'Ø§Ù„ØªØ¹Ù„Ù…'),
+            NavigationDestination(icon: Icon(Icons.chat_bubble_outline_rounded), selectedIcon: Icon(Icons.chat_rounded), label: 'Ø§Ù„Ø¯Ø±Ø¯Ø´Ø©'),
+            NavigationDestination(icon: Icon(Icons.tune_outlined), selectedIcon: Icon(Icons.tune_rounded), label: 'Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DashboardTab extends StatelessWidget {
+  const _DashboardTab();
+
+  @override
+  Widget build(BuildContext context) {
+    final profile = ProfileStore.instance.profile!;
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [scheme.primary.withOpacity(.10), scheme.surface, scheme.secondary.withOpacity(.06)],
+        ),
+      ),
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Ø£Ù‡Ù„Ø§Ù‹ ${profile.userName} ðŸ‘‹', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900)),
+                    const SizedBox(height: 4),
+                    Text('Ø£Ù†Ø§ ${profile.safeAssistantName} â€” Ù…ÙˆØ¬ÙˆØ¯ Ù…Ø¹Ø§Ùƒ ÙÙŠ Ø§Ù„ÙƒÙ„Ø§Ù… ÙˆØ§Ù„ØªØ¹Ù„Ù….'),
+                  ],
+                ),
+              ),
+              IconButton(onPressed: () => Navigator.pushNamed(context, '/profile'), icon: const Icon(Icons.person_outline_rounded)),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
+              child: Column(
+                children: [
+                  SikoAvatar(
+                    imageBase64: profile.avatarBase64,
+                    imagePath: profile.avatarPath,
+                    preset: profile.avatarPreset,
+                    mode: AvatarAnimationMode.speaking,
+                    size: 220,
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(color: scheme.surfaceContainerHighest, borderRadius: BorderRadius.circular(99)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.chat_bubble_rounded, size: 15, color: scheme.primary),
+                        const SizedBox(width: 7),
+                        Text('Ø§Ù„Ù…Ø­Ø§Ø¯Ø«Ø© Ù…ØªØ§Ø­Ø© â€” Ø§Ø®ØªØ§Ø± Ø§Ù„Ø·Ø±ÙŠÙ‚Ø© Ø§Ù„Ù„ÙŠ ØªØ­Ø¨Ù‡Ø§', style: TextStyle(fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text('Ø¬Ø§Ù‡Ø² ØªØªÙƒÙ„Ù…ØŸ', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 6),
+                  Text('ØµÙˆØªØŒ ÙƒØªØ§Ø¨Ø©ØŒ ØªØ¹Ù„Ù… Ù„ØºØ©ØŒ Ø£Ùˆ ÙØ¶ÙØ¶Ø© Ø¹Ù† ÙŠÙˆÙ…Ùƒ.', textAlign: TextAlign.center),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      FilledButton.icon(
+                        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const VoiceScreen())),
+                        icon: const Icon(Icons.mic_rounded),
+                        label: const Text('Ø§Ø¨Ø¯Ø£ ØµÙˆØª'),
+                      ),
+                      OutlinedButton.icon(
+                        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatScreen())),
+                        icon: const Icon(Icons.chat_rounded),
+                        label: const Text('Ø§Ø¨Ø¯Ø£ ÙƒØªØ§Ø¨Ø©'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 18),
+          Text('Ù…Ø§Ø°Ø§ ØªØ±ÙŠØ¯ Ø£Ù† ØªÙØ¹Ù„ Ø§Ù„Ø¢Ù†ØŸ', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900)),
+          const SizedBox(height: 10),
+          FeatureCard(
+            title: '${profile.learnVerb} ${profile.learningLanguage == 'English' ? 'Ø§Ù„Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ©' : 'Ø§Ù„ÙØ±Ù†Ø³ÙŠØ©'}',
+            subtitle: profile.learningLanguage == 'English' ? '${profile.englishVariant} English â€¢ Ø´Ø±Ø­ Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠ' : 'FranÃ§ais â€¢ Ø´Ø±Ø­ Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠ',
+            icon: Icons.translate_rounded,
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => LearnScreen(initialLanguage: profile.learningLanguage))),
+          ),
+          FeatureCard(
+            title: 'Ø§Ø­ÙƒÙŠ Ù„ÙŠ Ø¹Ù† ÙŠÙˆÙ…Ùƒ',
+            subtitle: 'Ù…Ø­Ø§Ø¯Ø«Ø© Ø·Ø¨ÙŠØ¹ÙŠØ© Ø¨ØµÙˆØª Ø³ÙŠÙƒÙˆ ÙˆØ±Ø¯ÙˆØ¯Ù‡ Ø§Ù„Ù…ØªØ­Ø±ÙƒØ©',
+            icon: Icons.forum_outlined,
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const VoiceScreen(dayTalk: true))),
+          ),
+          FeatureCard(
+            title: 'Ø¬Ø±Ù‘Ø¨ Ø´ÙƒÙ„ Ø§Ù„Ø£ÙØ§ØªØ§Ø±',
+            subtitle: 'Ø±ÙˆØ¨ÙˆØªØŒ Ø±Ø¬Ù„ØŒ Ø§Ù…Ø±Ø£Ø©ØŒ Ù…Ø­Ø¬Ø¨Ø© Ø£Ùˆ ØµÙˆØ±Ø© Ù…Ø®ØµØµØ©',
+            icon: Icons.view_in_ar_rounded,
+            onTap: () => Navigator.pushNamed(context, '/profile'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\screens\learn_screen.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+import '../services/profile_store.dart';
+import '../services/tts_service.dart';
+import '../widgets/section_title.dart';
+
+class LearnScreen extends StatefulWidget {
+  const LearnScreen({super.key, this.initialLanguage});
+  final String? initialLanguage;
+
+  @override
+  State<LearnScreen> createState() => _LearnScreenState();
+}
+
+class _LearnScreenState extends State<LearnScreen> {
+  late String _language;
+  int _level = 1;
+  final _tts = TtsService();
+
+  @override
+  void initState() {
+    super.initState();
+    _language = widget.initialLanguage ?? ProfileStore.instance.profile!.learningLanguage;
+  }
+
+  @override
+  void dispose() {
+    _tts.stop();
+    super.dispose();
+  }
+
+  String get _accent => ProfileStore.instance.profile!.englishVariant;
+
+  String _ttsLocale() {
+    if (_language == 'French') return 'fr-FR';
+    return _accent == 'British' ? 'en-GB' : 'en-US';
+  }
+
+  Future<void> _play(String text) => _tts.speak(text, _ttsLocale());
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 30),
+      children: [
+        Row(
+          children: [
+            Expanded(child: Text('ØªØ¹Ù„Ù… Ù…Ø¹ Ø³ÙŠÙƒÙˆ', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900))),
+            DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: _language,
+                items: const [
+                  DropdownMenuItem(value: 'English', child: Text('English')),
+                  DropdownMenuItem(value: 'French', child: Text('FranÃ§ais')),
+                ],
+                onChanged: (value) {
+                  if (value != null) setState(() => _language = value);
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Text(_language == 'English' ? '${_accent} English â€¢ Ø´Ø±Ø­ Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠ' : 'FranÃ§ais â€¢ Ø´Ø±Ø­ Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠ'),
+        const SizedBox(height: 22),
+        _ProgressCard(level: _level),
+        const SizedBox(height: 22),
+        const SectionTitle('Ø¯Ø±Ø³ Ø§Ù„ÙŠÙˆÙ…'),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Ø§Ù„Ù…Ø³ØªÙˆÙ‰ A${_level}', style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
+                Text(_language == 'English' ? 'Ø§Ù„ØªØ¹Ø±ÙŠÙ Ø¨Ø§Ù„Ù†ÙØ³' : 'Ø§Ù„ØªØ¹Ø±ÙŠÙ Ø¨Ø§Ù„Ù†ÙØ³ Ø¨Ø§Ù„ÙØ±Ù†Ø³ÙŠØ©', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
+                const SizedBox(height: 8),
+                Text(_language == 'English'
+                    ? 'Hello, my name is Mohammed. Nice to meet you.'
+                    : 'Bonjour, je mâ€™appelle Mohammed. EnchantÃ©.', style: const TextStyle(fontSize: 18, height: 1.5)),
+                const SizedBox(height: 8),
+                Text('Ø§Ù„Ø´Ø±Ø­: Ø³ÙŠÙƒÙˆ ÙŠØ´Ø±Ø­ Ø§Ù„Ø¬Ù…Ù„Ø© Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠØŒ Ø«Ù… ÙŠØ®Ù„ÙŠÙƒ ØªØ³Ù…Ø¹Ù‡Ø§ ÙˆØªÙƒØ±Ø±Ù‡Ø§ ÙˆØªØ³ØªØ®Ø¯Ù…Ù‡Ø§ ÙÙŠ Ù…Ø­Ø§Ø¯Ø«Ø© Ù‚ØµÙŠØ±Ø© Ù…Ø¹ ØªØµØ­ÙŠØ­ ØªØ¯Ø±ÙŠØ¬ÙŠ.'),
+                const SizedBox(height: 14),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    OutlinedButton.icon(
+                      onPressed: () => _play(_language == 'English' ? 'Hello, my name is Mohammed. Nice to meet you.' : 'Bonjour, je mâ€™appelle Mohammed. EnchantÃ©.'),
+                      icon: const Icon(Icons.volume_up_rounded),
+                      label: const Text('Ø§Ø³Ù…Ø¹ Ø§Ù„Ø¬Ù…Ù„Ø©'),
+                    ),
+                    FilledButton.icon(
+                      onPressed: () => setState(() => _level = _level >= 5 ? 1 : _level + 1),
+                      icon: const Icon(Icons.play_arrow_rounded),
+                      label: const Text('Ø§Ø¨Ø¯Ø£ Ø§Ù„ØªÙ…Ø±ÙŠÙ†'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 22),
+        const SectionTitle('Ù…Ø³Ø§Ø±Ø§Øª Ø§Ù„ØªØ¹Ù„Ù…'),
+        _LessonTile(icon: Icons.record_voice_over_outlined, title: 'Ø§Ù„Ù†Ø·Ù‚ ÙˆØ§Ù„Ø§Ø³ØªÙ…Ø§Ø¹', subtitle: 'Ø§Ø³Ù…Ø¹ØŒ ÙƒØ±Ø±ØŒ Ø«Ù… Ø§Ø­ØµÙ„ Ø¹Ù„Ù‰ ØªØµØ­ÙŠØ­.'),
+        _LessonTile(icon: Icons.menu_book_outlined, title: 'Ø§Ù„Ù…ÙØ±Ø¯Ø§Øª', subtitle: 'ÙƒÙ„Ù…Ø§Øª Ø¬Ø¯ÙŠØ¯Ø© Ù…Ø¹ Ù…Ø±Ø§Ø¬Ø¹Ø© Ù…ØªØ¨Ø§Ø¹Ø¯Ø©.'),
+        _LessonTile(icon: Icons.rule_rounded, title: 'Ø§Ù„Ù‚ÙˆØ§Ø¹Ø¯', subtitle: 'Ø´Ø±Ø­ Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠ Ø¨Ø£Ù…Ø«Ù„Ø© Ø¨Ø³ÙŠØ·Ø©.'),
+        _LessonTile(icon: Icons.theater_comedy_outlined, title: 'Ù…ÙˆØ§Ù‚Ù ÙˆØ§Ù‚Ø¹ÙŠØ©', subtitle: 'Ù…Ø·Ø¹Ù…ØŒ Ù…Ø·Ø§Ø±ØŒ Ù…Ù‚Ø§Ø¨Ù„Ø© Ø¹Ù…Ù„ØŒ Ø§Ø¬ØªÙ…Ø§Ø¹ ÙˆØºÙŠØ±Ù‡Ø§.'),
+      ],
+    );
+  }
+}
+
+class _ProgressCard extends StatelessWidget {
+  const _ProgressCard({required this.level});
+  final int level;
+
+  @override
+  Widget build(BuildContext context) {
+    final progress = 0.2 + (level - 1) * 0.15;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [const Icon(Icons.insights_rounded), const SizedBox(width: 8), Text('ØªÙ‚Ø¯Ù…Ùƒ Ø§Ù„Ø­Ø§Ù„ÙŠ', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold))]),
+            const SizedBox(height: 12),
+            ClipRRect(borderRadius: BorderRadius.circular(99), child: LinearProgressIndicator(value: progress.clamp(0, 1).toDouble(), minHeight: 10)),
+            const SizedBox(height: 8),
+            Text('Level A$level â€¢ ${ProfileStore.instance.profile!.chooseVerb} Ø§Ù„ØªÙ…Ø±ÙŠÙ† Ø§Ù„ØªØ§Ù„ÙŠ ÙˆÙ†Ø·ÙˆÙ‘Ø± Ø§Ù„Ù…Ø³ØªÙˆÙ‰ Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ø£Ø¯Ø§Ø¦Ùƒ.'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LessonTile extends StatelessWidget {
+  const _LessonTile({required this.icon, required this.title, required this.subtitle});
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: CircleAvatar(child: Icon(icon)),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(subtitle),
+        trailing: const Icon(Icons.chevron_left_rounded),
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\screens\profile_setup_screen.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+import '../models/user_profile.dart';
+import '../services/avatar_service.dart';
+import '../services/profile_store.dart';
+import '../widgets/siko_avatar.dart';
+
+class ProfileSetupScreen extends StatefulWidget {
+  const ProfileSetupScreen({super.key, this.editMode = false});
+  final bool editMode;
+
+  @override
+  State<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
+}
+
+class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _first = TextEditingController();
+  final _last = TextEditingController();
+  final _assistant = TextEditingController();
+  String _learningLanguage = 'English';
+  String _englishVariant = 'American';
+  UserGender _gender = UserGender.male;
+  AvatarPreset _preset = AvatarPreset.robotNeon;
+  String? _avatarBase64;
+  bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final existing = ProfileStore.instance.profile;
+    if (existing != null) {
+      _first.text = existing.firstName;
+      _last.text = existing.lastName;
+      _assistant.text = existing.assistantName == 'Ø³ÙŠÙƒÙˆ' ? '' : existing.assistantName;
+      _learningLanguage = existing.learningLanguage;
+      _englishVariant = existing.englishVariant;
+      _gender = existing.gender;
+      _preset = existing.avatarPreset;
+      _avatarBase64 = existing.avatarBase64;
+    }
+  }
+
+  @override
+  void dispose() {
+    _first.dispose();
+    _last.dispose();
+    _assistant.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickPhoto() async {
+    final result = await const AvatarService().pickAndEncodeAvatar();
+    if (!mounted || result == null) return;
+    setState(() {
+      _avatarBase64 = result;
+      _preset = AvatarPreset.customPhoto;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('ØªÙ… ØªØ­Ù…ÙŠÙ„ Ø§Ù„ØµÙˆØ±Ø© ÙˆØ§Ø³ØªØ®Ø¯Ø§Ù…Ù‡Ø§ ÙƒØ£ÙØ§ØªØ§Ø± ðŸŽ‰')));
+  }
+
+  void _suggestGenderAvatar() {
+    if (_gender == UserGender.female) {
+      setState(() { _preset = AvatarPreset.womanHijabLight; _avatarBase64 = null; });
+    } else {
+      setState(() { _preset = AvatarPreset.manLight; _avatarBase64 = null; });
+    }
+  }
+
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _saving = true);
+    final assistant = _assistant.text.trim().isEmpty ? 'Ø³ÙŠÙƒÙˆ' : _assistant.text.trim();
+    await ProfileStore.instance.save(
+      UserProfile(
+        firstName: _first.text.trim(),
+        lastName: _last.text.trim(),
+        gender: _gender,
+        assistantName: assistant,
+        learningLanguage: _learningLanguage,
+        englishVariant: _englishVariant,
+        avatarPreset: _preset,
+        avatarBase64: _avatarBase64,
+      ),
+    );
+    if (!mounted) return;
+    setState(() => _saving = false);
+    if (widget.editMode) Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final assistantPreview = _assistant.text.trim().isEmpty ? 'Ø³ÙŠÙƒÙˆ' : _assistant.text.trim();
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Theme.of(context).colorScheme.primary.withOpacity(.11),
+                Theme.of(context).colorScheme.surface,
+                Theme.of(context).colorScheme.secondary.withOpacity(.08),
+              ],
+            ),
+          ),
+          child: SafeArea(
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(20, 22, 20, 34),
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.editMode ? 'ØªØ®ØµÙŠØµ Ø­Ø³Ø§Ø¨Ùƒ' : 'Ø®Ù„Ù‘ÙŠÙ†Ø§ Ù†Ø¬Ù‡Ù‘Ø² Ø¹Ø§Ù„Ù… Ø³ÙŠÙƒÙˆ',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                      if (widget.editMode)
+                        IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close_rounded)),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text('ÙƒÙ„ Ø§Ø®ØªÙŠØ§Ø± Ù‡Ù†Ø§ Ù‡ÙŠØ£Ø«Ø± Ø¹Ù„Ù‰ Ø·Ø±ÙŠÙ‚Ø© ÙƒÙ„Ø§Ù… Ø³ÙŠÙƒÙˆØŒ Ø´ÙƒÙ„ Ø§Ù„Ø£ÙØ§ØªØ§Ø±ØŒ ÙˆØ·Ø±ÙŠÙ‚Ø© Ø¸Ù‡ÙˆØ± Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ù„Ùƒ.'),
+                  const SizedBox(height: 18),
+                  Center(
+                    child: SikoAvatar(
+                      imageBase64: _avatarBase64,
+                      preset: _preset,
+                      size: 200,
+                      mode: AvatarAnimationMode.idle,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Center(child: Text('Ù…Ø±Ø­Ø¨Ù‹Ø§ Ø¨Ù€ $assistantPreview', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800))),
+                  const SizedBox(height: 18),
+                  _SectionCard(
+                    title: 'Ø¨ÙŠØ§Ù†Ø§ØªÙƒ',
+                    icon: Icons.person_rounded,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: _first,
+                                decoration: const InputDecoration(labelText: 'Ø§Ù„Ø§Ø³Ù…', prefixIcon: Icon(Icons.person_outline_rounded)),
+                                validator: (v) => v == null || v.trim().isEmpty ? 'Ø§ÙƒØªØ¨ Ø§Ù„Ø§Ø³Ù…' : null,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _last,
+                                decoration: const InputDecoration(labelText: 'Ø§Ù„Ù„Ù‚Ø¨ / Ø§Ø³Ù… Ø§Ù„Ø¹Ø§Ø¦Ù„Ø©', prefixIcon: Icon(Icons.badge_outlined)),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        DropdownButtonFormField<UserGender>(
+                          value: _gender,
+                          decoration: const InputDecoration(labelText: 'Ø§Ù„Ù†ÙˆØ¹', prefixIcon: Icon(Icons.wc_rounded)),
+                          items: const [
+                            DropdownMenuItem(value: UserGender.male, child: Text('Ø°ÙƒØ±')),
+                            DropdownMenuItem(value: UserGender.female, child: Text('Ø£Ù†Ø«Ù‰')),
+                          ],
+                          onChanged: (v) {
+                            if (v != null) setState(() => _gender = v);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _SectionCard(
+                    title: 'Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯ Ø§Ù„Ø°ÙƒÙŠ',
+                    icon: Icons.smart_toy_rounded,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _assistant,
+                          onChanged: (_) => setState(() {}),
+                          decoration: const InputDecoration(
+                            labelText: 'Ø§Ø³Ù… Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯ (Ø§Ø®ØªÙŠØ§Ø±ÙŠ)',
+                            hintText: 'Ø³ÙŠÙƒÙˆ',
+                            prefixIcon: Icon(Icons.auto_awesome_rounded),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text('Ø§ØªØ±ÙƒÙ‡Ø§ ÙØ§Ø±ØºØ© ÙˆØ³ÙŠÙƒÙˆÙ† Ø§Ù„Ø§Ø³Ù… Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠ: Ø³ÙŠÙƒÙˆ.'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _SectionCard(
+                    title: 'Ø§Ù„ØªØ¹Ù„Ù‘Ù…',
+                    icon: Icons.school_rounded,
+                    child: Column(
+                      children: [
+                        DropdownButtonFormField<String>(
+                          value: _learningLanguage,
+                          decoration: const InputDecoration(labelText: 'Ø§Ù„Ù„ØºØ© Ø§Ù„ØªÙŠ ØªØªØ¹Ù„Ù…Ù‡Ø§', prefixIcon: Icon(Icons.language_rounded)),
+                          items: const [
+                            DropdownMenuItem(value: 'English', child: Text('English')),
+                            DropdownMenuItem(value: 'French', child: Text('FranÃ§ais')),
+                          ],
+                          onChanged: (v) {
+                            if (v != null) setState(() => _learningLanguage = v);
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        if (_learningLanguage == 'English')
+                          DropdownButtonFormField<String>(
+                            value: _englishVariant,
+                            decoration: const InputDecoration(labelText: 'Ù†ÙˆØ¹ Ø§Ù„Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ©', prefixIcon: Icon(Icons.record_voice_over_outlined)),
+                            items: const [
+                              DropdownMenuItem(value: 'American', child: Text('American English ðŸ‡ºðŸ‡¸')),
+                              DropdownMenuItem(value: 'British', child: Text('British English ðŸ‡¬ðŸ‡§')),
+                            ],
+                            onChanged: (v) {
+                              if (v != null) setState(() => _englishVariant = v);
+                            },
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _SectionCard(
+                    title: 'Ø´ÙƒÙ„ Ø§Ù„Ø£ÙØ§ØªØ§Ø±',
+                    icon: Icons.view_in_ar_rounded,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed: _suggestGenderAvatar,
+                                icon: const Icon(Icons.auto_fix_high_rounded),
+                                label: Text(_gender == UserGender.female ? 'Ø§Ù‚ØªØ±Ø§Ø­ Ø£ÙØ§ØªØ§Ø± Ø£Ù†Ø«Ù‰' : 'Ø§Ù‚ØªØ±Ø§Ø­ Ø£ÙØ§ØªØ§Ø± Ø°ÙƒØ±'),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: FilledButton.tonalIcon(
+                                onPressed: _pickPhoto,
+                                icon: const Icon(Icons.add_a_photo_rounded),
+                                label: const Text('Ø§Ø³ØªØ®Ø¯Ù… ØµÙˆØ±Ø©'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: avatarOptions.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: .82,
+                          ),
+                          itemBuilder: (context, index) {
+                            final option = avatarOptions[index];
+                            final selected = _preset == option.preset;
+                            return InkWell(
+                              onTap: () => setState(() { _preset = option.preset; if (option.preset != AvatarPreset.customPhoto) _avatarBase64 = null; }),
+                              borderRadius: BorderRadius.circular(18),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 220),
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: selected
+                                      ? Theme.of(context).colorScheme.primaryContainer
+                                      : Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(.55),
+                                  borderRadius: BorderRadius.circular(18),
+                                  border: Border.all(
+                                    color: selected ? Theme.of(context).colorScheme.primary : Colors.transparent,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Expanded(child: SikoAvatar(preset: option.preset, size: 72, mode: selected ? AvatarAnimationMode.speaking : AvatarAnimationMode.idle, showBody: false)),
+                                    const SizedBox(height: 4),
+                                    Text(option.title, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 12)),
+                                    Text(option.subtitle, maxLines: 1, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodySmall),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        Text('Ø§Ù„ØµÙˆØ±Ø© Ø§Ù„Ù…Ø±ÙÙˆØ¹Ø© ØªØ¹Ù…Ù„ ÙƒØ£ÙØ§ØªØ§Ø± Ù…Ø®ØµØµ Ù…ØªØ­Ø±Ùƒ Ø§Ù„Ø¢Ù†ØŒ ÙˆØªÙ… ØªØ¬Ù‡ÙŠØ² Ø§Ù„ØªØµÙ…ÙŠÙ… Ù„Ø¥Ø¶Ø§ÙØ© ØªØ­ÙˆÙŠÙ„ Ø§Ù„ØµÙˆØ±Ø© Ø¥Ù„Ù‰ Ø´Ø®ØµÙŠØ© 3D Ø­Ù‚ÙŠÙ‚ÙŠØ© Ø¨Ø®Ø¯Ù…Ø© AI Ù„Ø§Ø­Ù‚Ù‹Ø§ Ø¯ÙˆÙ† ØªØºÙŠÙŠØ± ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„ØªØ·Ø¨ÙŠÙ‚.'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  FilledButton.icon(
+                    onPressed: _saving ? null : _save,
+                    icon: _saving ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.rocket_launch_rounded),
+                    label: Text(widget.editMode ? 'Ø­ÙØ¸ Ø§Ù„ØªØ¹Ø¯ÙŠÙ„Ø§Øª' : 'Ø§Ø¨Ø¯Ø£ Ù…Ø¹ Ø³ÙŠÙƒÙˆ'),
+                    style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(58)),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionCard extends StatelessWidget {
+  const _SectionCard({required this.title, required this.icon, required this.child});
+  final String title;
+  final IconData icon;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [Icon(icon), const SizedBox(width: 8), Text(title, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900))]),
+            const SizedBox(height: 14),
+            child,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\screens\settings_screen.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+import '../config/app_config.dart';
+import '../models/user_profile.dart';
+import '../services/profile_store.dart';
+import '../services/theme_store.dart';
+import '../widgets/siko_avatar.dart';
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final profile = ProfileStore.instance.profile!;
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 30),
+      children: [
+        Text('Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900)),
+        const SizedBox(height: 16),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                SikoAvatar(imageBase64: profile.avatarBase64, imagePath: profile.avatarPath, preset: profile.avatarPreset, size: 76, showBody: false),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(profile.userName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+                    const SizedBox(height: 4),
+                    Text('Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯: ${profile.safeAssistantName}'),
+                    const SizedBox(height: 3),
+                    Text(profile.gender == UserGender.female ? 'Ø§Ù„Ù†ÙˆØ¹: Ø£Ù†Ø«Ù‰' : 'Ø§Ù„Ù†ÙˆØ¹: Ø°ÙƒØ±', style: Theme.of(context).textTheme.bodySmall),
+                  ]),
+                ),
+                IconButton(onPressed: () => Navigator.pushNamed(context, '/profile'), icon: const Icon(Icons.edit_outlined)),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 14),
+        ListenableBuilder(
+          listenable: ThemeStore.instance,
+          builder: (context, _) => Card(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(ThemeStore.instance.isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded),
+                  title: const Text('Ù…Ø¸Ù‡Ø± Ø§Ù„ØªØ·Ø¨ÙŠÙ‚'),
+                  subtitle: Text(ThemeStore.instance.isDark ? 'Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ù„ÙŠÙ„ÙŠ' : 'Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ù†Ù‡Ø§Ø±ÙŠ'),
+                ),
+                SwitchListTile(
+                  value: ThemeStore.instance.isDark,
+                  onChanged: ThemeStore.instance.setDark,
+                  title: const Text('Ø§Ù„ÙˆØ¶Ø¹ Ø§Ù„Ù„ÙŠÙ„ÙŠ'),
+                  secondary: const Icon(Icons.brightness_6_rounded),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 14),
+        Card(
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.psychology_alt_rounded),
+                title: const Text('Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ'),
+                subtitle: Text(AppConfig.geminiApiKey.isEmpty ? 'Demo Ø­Ø§Ù„ÙŠØ§Ù‹ â€” ÙŠÙ…ÙƒÙ†Ùƒ Ø±Ø¨Ø· API Ù„Ø§Ø­Ù‚Ù‹Ø§' : 'Gemini API Ù…ÙØ¹Ù„'),
+              ),
+              const Divider(height: 1),
+              const ListTile(
+                leading: Icon(Icons.mic_none_rounded),
+                title: Text('Ø§Ù„ØµÙˆØª'),
+                subtitle: Text('Speech-to-Text Ùˆ Text-to-Speech Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø®Ø¯Ù…Ø§Øª Ø§Ù„Ø¬Ù‡Ø§Ø².'),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        Card(
+          child: Column(
+            children: [
+              const ListTile(
+                leading: Icon(Icons.view_in_ar_rounded),
+                title: Text('Ù†Ø¸Ø§Ù… Ø§Ù„Ø£ÙØ§ØªØ§Ø±'),
+                subtitle: Text('Ø£Ø´ÙƒØ§Ù„ Ù…ØªØ¹Ø¯Ø¯Ø© + ØµÙˆØ±Ø© Ø´Ø®ØµÙŠØ© Ù…Ø®ØµØµØ© + Ø­Ø§Ù„Ø§Øª ØªÙØ§Ø¹Ù„: Ø§Ø³ØªÙ…Ø§Ø¹ØŒ ØªÙÙƒÙŠØ±ØŒ ÙƒÙ„Ø§Ù….'),
+              ),
+              const Divider(height: 1),
+              ListTile(
+                leading: const Icon(Icons.auto_awesome_rounded),
+                title: const Text('ØªØ­ÙˆÙŠÙ„ Ø§Ù„ØµÙˆØ±Ø© Ø¥Ù„Ù‰ 3D'),
+                subtitle: const Text('ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ù…Ø¬Ù‡Ø²Ø© Ù„Ù‡Ø°Ù‡ Ø§Ù„Ø®Ø·ÙˆØ©ØŒ ÙˆØªØ­ØªØ§Ø¬ Ù…Ø²ÙˆØ¯ AI Ù„ØªÙˆÙ„ÙŠØ¯ Ù†Ù…ÙˆØ°Ø¬ 3D Ø­Ù‚ÙŠÙ‚ÙŠ.'),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        FilledButton.tonalIcon(
+          onPressed: () => showDialog<void>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Ø¹Ù† Ø³ÙŠÙƒÙˆ'),
+              content: const Text('Siko AI â€” Ù…Ø³Ø§Ø¹Ø¯ Ø°ÙƒÙŠ Ø¹Ø±Ø¨ÙŠ Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ© Ù„ØªØ¹Ù„Ù… Ø§Ù„Ù„ØºØ§Øª ÙˆØ§Ù„Ù…Ø­Ø§Ø¯Ø«Ø©ØŒ Ù…Ø¹ Ø£ÙØ§ØªØ§Ø± Ù…ØªØ­Ø±Ùƒ ÙˆÙˆØ§Ø¬Ù‡Ø© Ù‚Ø§Ø¨Ù„Ø© Ù„Ù„ØªÙˆØ³Ø¹ Ø¥Ù„Ù‰ 3D ÙˆAI Ù…ØªÙ‚Ø¯Ù….'),
+              actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Ø¥ØºÙ„Ø§Ù‚'))],
+            ),
+          ),
+          icon: const Icon(Icons.info_outline_rounded),
+          label: const Text('Ø­ÙˆÙ„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹'),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\screens\voice_screen.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+import '../services/ai_service.dart';
+import '../services/profile_store.dart';
+import '../services/speech_service.dart';
+import '../services/tts_service.dart';
+import '../models/user_profile.dart';
+import '../widgets/siko_avatar.dart';
+
+class VoiceScreen extends StatefulWidget {
+  const VoiceScreen({super.key, this.dayTalk = false});
+  final bool dayTalk;
+
+  @override
+  State<VoiceScreen> createState() => _VoiceScreenState();
+}
+
+class _VoiceScreenState extends State<VoiceScreen> {
+  final _speech = SpeechService();
+  final _tts = TtsService();
+  final _ai = const AiService();
+  String _transcript = '';
+  String _reply = '';
+  bool _listening = false;
+  bool _thinking = false;
+  bool _speaking = false;
+  String? _error;
+
+  String get _localeId {
+    final profile = ProfileStore.instance.profile!;
+    if (profile.learningLanguage == 'French') return 'fr_FR';
+    return profile.englishVariant == 'British' ? 'en_GB' : 'en_US';
+  }
+
+  String get _ttsLocale {
+    final profile = ProfileStore.instance.profile!;
+    if (profile.learningLanguage == 'French') return 'fr-FR';
+    return profile.englishVariant == 'British' ? 'en-GB' : 'en-US';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _tts.onSpeakingChanged = (value) {
+      if (mounted) setState(() => _speaking = value);
+    };
+  }
+
+  @override
+  void dispose() {
+    _speech.stop();
+    _tts.stop();
+    super.dispose();
+  }
+
+  Future<void> _toggleListen() async {
+    setState(() => _error = null);
+    if (_listening) {
+      await _speech.stop(onListeningChanged: (value) {
+        if (mounted) setState(() => _listening = value);
+      });
+      return;
+    }
+
+    final started = await _speech.listen(
+      localeId: _localeId,
+      onText: (text) {
+        if (mounted) setState(() => _transcript = text);
+      },
+      onListeningChanged: (value) {
+        if (mounted) setState(() => _listening = value);
+      },
+    );
+
+    if (!started && mounted) {
+      setState(() => _error = 'Ù„Ù… Ø£Ø³ØªØ·Ø¹ ØªØ´ØºÙŠÙ„ Ø§Ù„Ù…ÙŠÙƒØ±ÙˆÙÙˆÙ†. ØªØ£ÙƒØ¯ Ù…Ù† Ø§Ù„Ø³Ù…Ø§Ø­ Ø¨Ø§Ù„Ù…ÙŠÙƒØ±ÙˆÙÙˆÙ† ÙˆÙˆØ¬ÙˆØ¯ Ø®Ø¯Ù…Ø© Speech Recognition Ø¹Ù„Ù‰ Ø§Ù„Ø¬Ù‡Ø§Ø².');
+    }
+  }
+
+  Future<void> _sendVoiceText() async {
+    final text = _transcript.trim();
+    if (text.isEmpty || _thinking) return;
+    setState(() {
+      _thinking = true;
+      _reply = '';
+    });
+    final reply = await _ai.reply(userText: text, profile: ProfileStore.instance.profile!);
+    if (!mounted) return;
+    setState(() {
+      _reply = reply;
+      _thinking = false;
+    });
+    await _tts.speak(reply, _ttsLocale);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final profile = ProfileStore.instance.profile!;
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(title: Text(widget.dayTalk ? 'Ø§Ø­ÙƒÙŠ Ù„ÙŠ Ø¹Ù† ÙŠÙˆÙ…Ùƒ' : 'Ø§Ù„Ù…Ø­Ø§Ø¯Ø«Ø© Ø§Ù„ØµÙˆØªÙŠØ©')),
+        body: ListView(
+          padding: const EdgeInsets.fromLTRB(22, 12, 22, 30),
+          children: [
+            Center(
+              child: SikoAvatar(
+                imageBase64: profile.avatarBase64,
+                imagePath: profile.avatarPath,
+                preset: profile.avatarPreset,
+                mode: _listening ? AvatarAnimationMode.listening : (_speaking ? AvatarAnimationMode.speaking : (_thinking ? AvatarAnimationMode.thinking : AvatarAnimationMode.idle)),
+                size: 210,
+              ),
+            ),
+            const SizedBox(height: 18),
+            Center(child: Text(_listening ? 'Ø³ÙŠÙƒÙˆ Ø¨ÙŠØ³Ù…Ø¹Ùƒ...' : (_thinking ? 'Ø³ÙŠÙƒÙˆ Ø¨ÙŠÙÙƒØ±...' : (_speaking ? 'Ø³ÙŠÙƒÙˆ Ø¨ÙŠØªÙƒÙ„Ù… ÙˆØ¨ÙŠØªÙØ§Ø¹Ù„...' : (widget.dayTalk ? 'Ø§Ø­ÙƒÙŠ Ù„ÙŠ Ø¹Ù† ÙŠÙˆÙ…Ùƒ Ø¨ØµÙˆØªÙƒ' : 'Ø§Ø¶ØºØ· Ø§Ù„Ù…ÙŠÙƒØ±ÙˆÙÙˆÙ† ÙˆØ§ØªÙƒÙ„Ù…')))), style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold))),
+            const SizedBox(height: 20),
+            if (_transcript.isNotEmpty) ...[
+              Text('Ø§Ù„Ù„ÙŠ ÙÙ‡Ù…ØªÙ‡ Ù…Ù†Ùƒ', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+              Card(child: Padding(padding: const EdgeInsets.all(16), child: Text(_transcript, style: const TextStyle(fontSize: 17, height: 1.45)))),
+              const SizedBox(height: 8),
+              FilledButton.icon(onPressed: _thinking ? null : _sendVoiceText, icon: const Icon(Icons.auto_awesome), label: const Text('Ø®Ù„ÙŠ Ø³ÙŠÙƒÙˆ ÙŠØ±Ø¯')),
+              const SizedBox(height: 16),
+            ],
+            if (_reply.isNotEmpty) ...[
+              Text('Ø±Ø¯ Ø³ÙŠÙƒÙˆ', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+              Card(child: Padding(padding: const EdgeInsets.all(16), child: Text(_reply, style: const TextStyle(fontSize: 17, height: 1.45)))),
+            ],
+            if (_error != null)
+              Card(color: Theme.of(context).colorScheme.errorContainer, child: Padding(padding: const EdgeInsets.all(14), child: Text(_error!))),
+            const SizedBox(height: 26),
+            Center(
+              child: FloatingActionButton.large(
+                onPressed: _toggleListen,
+                child: Icon(_listening ? Icons.stop_rounded : Icons.mic_rounded, size: 34),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Center(child: Text('Ø§Ù„Ù„ØºØ© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…Ø© Ù„Ù„Ø§Ø³ØªÙ…Ø§Ø¹: $_localeId', style: Theme.of(context).textTheme.bodySmall)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\services\ai_service.dart
+==================================================
+
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
+import '../config/app_config.dart';
+import '../models/user_profile.dart';
+
+class AiService {
+  const AiService();
+
+  Future<String> reply({
+    required String userText,
+    required UserProfile profile,
+  }) async {
+    if (AppConfig.geminiApiKey.isEmpty) {
+      return _demoReply(userText, profile);
+    }
+
+    final uri = Uri.parse(
+      '${AppConfig.geminiEndpoint}/${AppConfig.geminiModel}:generateContent?key=${AppConfig.geminiApiKey}',
+    );
+
+    final systemPrompt = '''
+You are ${profile.safeAssistantName}, a friendly Arabic-first smart assistant.
+The user's name is ${profile.userName}.
+The user is ${profile.gender == UserGender.female ? 'female' : 'male'} and is currently learning ${profile.learningLanguage}.
+Address the user with natural Arabic grammar matching the user's gender. For a female user, use feminine forms such as 'Ø§ØªØ¹Ù„Ù…ÙŠ' and 'Ø§Ø®ØªØ§Ø±ÙŠ'; for a male user, use masculine forms such as 'Ø§ØªØ¹Ù„Ù…' and 'Ø§Ø®ØªØ§Ø±'.
+If English is selected, the preferred variety is ${profile.englishVariant} English.
+Respond naturally in Arabic unless the user asks to practice the target language.
+For problems, give practical, reasonable, actionable suggestions and clearly state uncertainty where needed.
+For language learning, act as a patient tutor: explain in Arabic, give examples, and encourage practice.
+When asked who you are, say your name and mention that ${profile.userName} chose the name.
+''';
+
+    final body = jsonEncode({
+      'system_instruction': {
+        'parts': [
+          {'text': systemPrompt}
+        ]
+      },
+      'contents': [
+        {
+          'role': 'user',
+          'parts': [
+            {'text': userText}
+          ]
+        }
+      ],
+      'generationConfig': {
+        'temperature': 0.7,
+        'maxOutputTokens': 700,
+      },
+    });
+
+    try {
+      final response = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        return 'Ø­ØµÙ„Øª Ù…Ø´ÙƒÙ„Ø© ÙÙŠ Ø§Ù„Ø§ØªØµØ§Ù„ Ø¨Ø®Ø¯Ù…Ø© Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ. Ø¬Ø±Ù‘Ø¨ Ù…Ø±Ø© Ø£Ø®Ø±Ù‰ Ø£Ùˆ Ø§Ø³ØªØ®Ø¯Ù… ÙˆØ¶Ø¹ Demo Ø­Ø§Ù„ÙŠØ§Ù‹.';
+      }
+
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+      final candidates = json['candidates'] as List<dynamic>?;
+      final first = candidates?.isNotEmpty == true ? candidates!.first : null;
+      final content = first is Map<String, dynamic>
+          ? first['content'] as Map<String, dynamic>?
+          : null;
+      final parts = content?['parts'] as List<dynamic>?;
+      final text = parts?.isNotEmpty == true && parts!.first is Map<String, dynamic>
+          ? (parts.first as Map<String, dynamic>)['text'] as String?
+          : null;
+
+      return text?.trim().isNotEmpty == true
+          ? text!.trim()
+          : 'Ù„Ù… ÙŠØµÙ„Ù†ÙŠ Ø±Ø¯ ÙˆØ§Ø¶Ø­ Ù‡Ø°Ù‡ Ø§Ù„Ù…Ø±Ø©. Ø¬Ø±Ù‘Ø¨ ØµÙŠØ§ØºØ© Ø§Ù„Ø³Ø¤Ø§Ù„ Ø¨Ø·Ø±ÙŠÙ‚Ø© Ø£Ø®Ø±Ù‰.';
+    } catch (_) {
+      return 'ØªØ¹Ø°Ø± Ø§Ù„Ø§ØªØµØ§Ù„ Ø­Ø§Ù„ÙŠØ§Ù‹. ØªØ£ÙƒØ¯ Ù…Ù† Ø§Ù„Ø¥Ù†ØªØ±Ù†Øª Ø£Ùˆ Ø¬Ø±Ù‘Ø¨ ÙˆØ¶Ø¹ Demo Ø§Ù„Ù…ÙˆØ¬ÙˆØ¯ Ø¯Ø§Ø®Ù„ Ø§Ù„ØªØ·Ø¨ÙŠÙ‚.';
+    }
+  }
+
+  String _demoReply(String text, UserProfile profile) {
+    final normalized = text.trim().toLowerCase();
+
+    if (normalized.contains('Ø¹Ø±Ù Ù†ÙØ³Ùƒ') || normalized.contains('Ù…Ù† Ø§Ù†Øª') ||
+        normalized.contains('who are you')) {
+      return 'Ø£Ù†Ø§ ${profile.safeAssistantName}ØŒ Ù…Ø³Ø§Ø¹Ø¯Ùƒ Ø§Ù„Ø°ÙƒÙŠ. ${profile.userName} Ù‡Ùˆ Ø§Ù„Ù„ÙŠ Ø§Ø®ØªØ§Ø± Ù„ÙŠ Ø§Ø³Ù… ${profile.safeAssistantName}. Ø£Ù‚Ø¯Ø± Ø£Ø³Ø§Ø¹Ø¯Ùƒ ÙÙŠ ØªØ¹Ù„Ù… Ø§Ù„Ù„ØºØ§ØªØŒ Ø§Ù„Ø¯Ø±Ø¯Ø´Ø©ØŒ ÙˆØªÙ†Ø¸ÙŠÙ… Ø£ÙÙƒØ§Ø±Ùƒ.';
+    }
+
+    if (normalized.contains('ÙØ±Ù†Ø³ÙŠ') || normalized.contains('french')) {
+      return 'Ø®Ù„ÙŠÙ†Ø§ Ù†ØªØ¹Ù„Ù… Ø®Ø·ÙˆØ© Ø®Ø·ÙˆØ© ðŸ‡«ðŸ‡·. Ù…Ø«Ø§Ù„: Bonjour = Ù…Ø±Ø­Ø¨Ø§Ù‹. Ø¨Ø¹Ø¯ ÙƒØ¯Ù‡ Ø£Ù‚Ø¯Ø± Ø£Ø¹Ù…Ù„ Ù„Ùƒ ØªØ¯Ø±ÙŠØ¨ Ù‚ØµÙŠØ± ÙˆÙ†Ø¨Ø¯Ø£ Ù…Ù† Ù…Ø³ØªÙˆØ§Ùƒ Ø§Ù„Ø­Ø§Ù„ÙŠ.';
+    }
+
+    if (normalized.contains('Ø§Ù†Ø¬Ù„ÙŠØ²ÙŠ') || normalized.contains('english')) {
+      return profile.isFemale
+          ? 'Ù…Ù…ØªØ§Ø²Ø© ðŸ‡¬ðŸ‡§ðŸ‡ºðŸ‡¸. Ø£Ù‚Ø¯Ø± Ø£Ø´Ø±Ø­ Ù„ÙƒÙ Ø§Ù„Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ© Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠØŒ ÙˆÙ†Ø­Ø¯Ø¯ Ù‡Ù„ ØªØ±ÙŠØ¯ÙŠÙ† Ø§Ù„Ù†Ø·Ù‚ Ø§Ù„Ø£Ù…Ø±ÙŠÙƒÙŠ Ø£Ù… Ø§Ù„Ø¨Ø±ÙŠØ·Ø§Ù†ÙŠØŒ ÙˆØ¨Ø¹Ø¯Ù‡Ø§ Ù†Ø¹Ù…Ù„ Ù…Ø­Ø§Ø¯Ø«Ø© Ù‚ØµÙŠØ±Ø© Ù„Ù„ØªØ¯Ø±ÙŠØ¨.'
+          : 'Ù…Ù…ØªØ§Ø² ðŸ‡¬ðŸ‡§ðŸ‡ºðŸ‡¸. Ø£Ù‚Ø¯Ø± Ø£Ø´Ø±Ø­ Ù„Ùƒ Ø§Ù„Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ© Ø¨Ø§Ù„Ø¹Ø±Ø¨ÙŠØŒ ÙˆÙ†Ø­Ø¯Ø¯ Ù‡Ù„ ØªØ±ÙŠØ¯ Ø§Ù„Ù†Ø·Ù‚ Ø§Ù„Ø£Ù…Ø±ÙŠÙƒÙŠ Ø£Ù… Ø§Ù„Ø¨Ø±ÙŠØ·Ø§Ù†ÙŠØŒ ÙˆØ¨Ø¹Ø¯Ù‡Ø§ Ù†Ø¹Ù…Ù„ Ù…Ø­Ø§Ø¯Ø«Ø© Ù‚ØµÙŠØ±Ø© Ù„Ù„ØªØ¯Ø±ÙŠØ¨.';
+    }
+
+    return 'Ø£Ù†Ø§ Ù…Ø¹Ø§Ùƒ ÙŠØ§ ${profile.userName}. ÙÙŠ Ø§Ù„Ù†Ø³Ø®Ø© Ø§Ù„Ø­Ø§Ù„ÙŠØ© Ø´ØºØ§Ù„ÙŠÙ† Ø¨ÙˆØ¶Ø¹ Demo Ù„ØªØ¬Ø±Ø¨Ø© Ø§Ù„ÙˆØ§Ø¬Ù‡Ø©. Ø§ÙƒØªØ¨ Ù…Ø´ÙƒÙ„Ø© Ø£Ùˆ Ù…ÙˆØ¶ÙˆØ¹ØŒ ÙˆØ¨Ø¹Ø¯ Ø±Ø¨Ø· Ù…ÙØªØ§Ø­ AI Ø³Ø£ØªØ¹Ø§Ù…Ù„ Ù…Ø¹Ù‡ ÙƒÙ…Ø­Ø§Ø¯Ø«Ø© Ø°ÙƒÙŠØ© ÙƒØ§Ù…Ù„Ø©.';
+  }
+}
+
+
+
+==================================================
+FILE: lib\services\avatar_service.dart
+==================================================
+
+import 'dart:convert';
+
+import 'package:image_picker/image_picker.dart';
+
+class AvatarService {
+  const AvatarService();
+
+  Future<String?> pickAndEncodeAvatar() async {
+    final picked = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 82,
+      maxWidth: 1000,
+    );
+    if (picked == null) return null;
+
+    final bytes = await picked.readAsBytes();
+    if (bytes.isEmpty) return null;
+    return base64Encode(bytes);
+  }
+}
+
+
+
+==================================================
+FILE: lib\services\profile_store.dart
+==================================================
+
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/user_profile.dart';
+
+class ProfileStore extends ChangeNotifier {
+  ProfileStore._();
+
+  static final instance = ProfileStore._();
+
+  static const _profileKey = 'siko_profile';
+
+  UserProfile? _profile;
+  UserProfile? get profile => _profile;
+
+  Future<void> load() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_profileKey);
+    if (raw == null || raw.isEmpty) return;
+    try {
+      _profile = UserProfile.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } catch (_) {
+      _profile = null;
+    }
+    notifyListeners();
+  }
+
+  Future<void> save(UserProfile profile) async {
+    _profile = profile;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_profileKey, jsonEncode(profile.toJson()));
+    notifyListeners();
+  }
+
+  Future<void> clear() async {
+    _profile = null;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_profileKey);
+    notifyListeners();
+  }
+}
+
+
+
+==================================================
+FILE: lib\services\speech_service.dart
+==================================================
+
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+
+class SpeechService {
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  bool _initialized = false;
+
+  bool get isListening => _speech.isListening;
+
+  Future<bool> initialize() async {
+    _initialized = await _speech.initialize();
+    return _initialized;
+  }
+
+  Future<bool> listen({
+    required String localeId,
+    required void Function(String text) onText,
+    void Function(bool listening)? onListeningChanged,
+  }) async {
+    if (!_initialized && !await initialize()) return false;
+
+    await _speech.listen(
+      onResult: (result) => onText(result.recognizedWords),
+      partialResults: true,
+      localeId: localeId,
+      listenMode: stt.ListenMode.dictation,
+      pauseFor: const Duration(seconds: 3),
+      listenFor: const Duration(seconds: 30),
+    );
+    onListeningChanged?.call(true);
+    return true;
+  }
+
+  Future<void> stop({void Function(bool listening)? onListeningChanged}) async {
+    await _speech.stop();
+    onListeningChanged?.call(false);
+  }
+}
+
+
+
+==================================================
+FILE: lib\services\theme_store.dart
+==================================================
+
+import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class ThemeStore extends ChangeNotifier {
+  ThemeStore._();
+  static final instance = ThemeStore._();
+
+  static const _darkKey = 'siko_dark_mode';
+  bool _isDark = false;
+
+  bool get isDark => _isDark;
+
+  Future<void> load() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isDark = prefs.getBool(_darkKey) ?? false;
+    notifyListeners();
+  }
+
+  Future<void> setDark(bool value) async {
+    if (_isDark == value) return;
+    _isDark = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_darkKey, value);
+    notifyListeners();
+  }
+}
+
+
+
+==================================================
+FILE: lib\services\tts_service.dart
+==================================================
+
+import 'package:flutter_tts/flutter_tts.dart';
+
+class TtsService {
+  TtsService() {
+    _tts.setCompletionHandler(() => onSpeakingChanged?.call(false));
+    _tts.setCancelHandler(() => onSpeakingChanged?.call(false));
+    _tts.setErrorHandler((_) => onSpeakingChanged?.call(false));
+    _tts.setStartHandler(() => onSpeakingChanged?.call(true));
+  }
+
+  final FlutterTts _tts = FlutterTts();
+  void Function(bool isSpeaking)? onSpeakingChanged;
+
+  Future<void> speak(String text, String languageCode) async {
+    await stop();
+    await _tts.setLanguage(languageCode);
+    await _tts.setSpeechRate(0.45);
+    await _tts.setPitch(1.0);
+    await _tts.setVolume(1.0);
+    await _tts.awaitSpeakCompletion(true);
+    await _tts.speak(text);
+  }
+
+  Future<void> stop() async {
+    await _tts.stop();
+    onSpeakingChanged?.call(false);
+  }
+}
+
+
+
+==================================================
+FILE: lib\theme\app_theme.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+class AppTheme {
+  static const seed = Color(0xFF6758F5);
+
+  static ThemeData light() {
+    final scheme = ColorScheme.fromSeed(seedColor: seed, brightness: Brightness.light);
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: scheme,
+      scaffoldBackgroundColor: const Color(0xFFF6F7FB),
+      appBarTheme: const AppBarTheme(centerTitle: false, elevation: 0),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white.withOpacity(.85),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: scheme.primary, width: 1.5)),
+      ),
+    );
+  }
+
+  static ThemeData dark() {
+    final scheme = ColorScheme.fromSeed(seedColor: seed, brightness: Brightness.dark);
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: scheme,
+      scaffoldBackgroundColor: const Color(0xFF0E1020),
+      appBarTheme: const AppBarTheme(centerTitle: false, elevation: 0),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color(0xFF171A2B),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: scheme.primary, width: 1.5)),
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\widgets\feature_card.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+class FeatureCard extends StatelessWidget {
+  const FeatureCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.onTap,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(22),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 26,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: Icon(icon, color: Theme.of(context).colorScheme.primary),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 4),
+                    Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_left_rounded),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\widgets\section_title.dart
+==================================================
+
+import 'package:flutter/material.dart';
+
+class SectionTitle extends StatelessWidget {
+  const SectionTitle(this.title, {super.key});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10, top: 6),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+      ),
+    );
+  }
+}
+
+
+
+==================================================
+FILE: lib\widgets\siko_avatar.dart
+==================================================
+
+import 'dart:convert';
+import 'dart:math' as math;
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+
+import '../models/user_profile.dart';
+
+class SikoAvatar extends StatefulWidget {
+  const SikoAvatar({
+    super.key,
+    this.imageBase64,
+    this.imagePath,
+    this.preset = AvatarPreset.robotNeon,
+    this.mode = AvatarAnimationMode.idle,
+    this.size = 180,
+    this.showBody = true,
+  });
+
+  final String? imageBase64;
+  final String? imagePath;
+  final AvatarPreset preset;
+  final AvatarAnimationMode mode;
+  final double size;
+  final bool showBody;
+
+  @override
+  State<SikoAvatar> createState() => _SikoAvatarState();
+}
+
+class _SikoAvatarState extends State<SikoAvatar>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1800),
+  )..repeat();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Uint8List? get _customBytes {
+    final raw = widget.imageBase64;
+    if (raw == null || raw.isEmpty) return null;
+    try {
+      return base64Decode(raw);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        final t = _controller.value * math.pi * 2;
+        final active = widget.mode != AvatarAnimationMode.idle;
+        final bob = (active ? 3.8 : 1.4) * math.sin(t);
+        final tilt = widget.mode == AvatarAnimationMode.thinking
+            ? math.sin(t * 0.8) * 0.015
+            : widget.mode == AvatarAnimationMode.listening
+                ? -0.015 + math.sin(t) * 0.006
+                : math.sin(t * 0.5) * 0.005;
+        final pulse = active ? 1 + (math.sin(t) + 1) * 0.018 : 1.0;
+
+        return Transform.translate(
+          offset: Offset(0, bob),
+          child: Transform.rotate(
+            angle: tilt,
+            child: Transform.scale(scale: pulse, child: child),
+          ),
+        );
+      },
+      child: _buildAvatar(context),
+    );
+  }
+
+  Widget _buildAvatar(BuildContext context) {
+    final custom = widget.preset == AvatarPreset.customPhoto ? _customBytes : null;
+    if (widget.preset == AvatarPreset.customPhoto && custom == null) {
+      return _buildPresetAvatar(context, AvatarPreset.robotNeon);
+    }
+    final hasLegacyImage = widget.imagePath != null && widget.imagePath!.isNotEmpty;
+
+    if (custom != null) {
+      return _photoAvatar(custom, context);
+    }
+
+    return _buildPresetAvatar(context, widget.preset, hasLegacyImage: hasLegacyImage);
+  }
+
+  Widget _buildPresetAvatar(BuildContext context, AvatarPreset preset, {bool hasLegacyImage = false}) {
+    return Semantics(
+      label: 'Siko avatar',
+      child: CustomPaint(
+        size: Size.square(widget.size),
+        painter: _InteractiveAvatarPainter(
+          preset: preset,
+          mode: widget.mode,
+          t: _controller.value,
+          accent: Theme.of(context).colorScheme.primary,
+          showBody: widget.showBody,
+          hasLegacyImage: hasLegacyImage,
+        ),
+      ),
+    );
+  }
+
+  Widget _photoAvatar(Uint8List bytes, BuildContext context) {
+    final active = widget.mode != AvatarAnimationMode.idle;
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: widget.size,
+          height: widget.size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.primaryContainer,
+                Theme.of(context).colorScheme.surfaceContainerHighest,
+              ],
+            ),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: active ? 32 : 20,
+                spreadRadius: active ? 7 : 2,
+                color: Theme.of(context).colorScheme.primary.withOpacity(.22),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(widget.size * .035),
+          child: ClipOval(
+            child: Image.memory(
+              bytes,
+              width: widget.size,
+              height: widget.size,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => const Icon(Icons.person_off_rounded, size: 64),
+            ),
+          ),
+        ),
+        IgnorePointer(
+          child: Container(
+            width: widget.size * .91,
+            height: widget.size * .91,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary.withOpacity(.45),
+                width: 2,
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.white.withOpacity(.22), Colors.transparent],
+              ),
+            ),
+          ),
+        ),
+        if (active)
+          Positioned(
+            bottom: widget.size * .07,
+            right: widget.size * .07,
+            child: _StateBadge(mode: widget.mode),
+          ),
+      ],
+    );
+  }
+}
+
+class _StateBadge extends StatelessWidget {
+  const _StateBadge({required this.mode});
+  final AvatarAnimationMode mode;
+
+  @override
+  Widget build(BuildContext context) {
+    final icon = switch (mode) {
+      AvatarAnimationMode.listening => Icons.mic_rounded,
+      AvatarAnimationMode.thinking => Icons.more_horiz_rounded,
+      AvatarAnimationMode.speaking => Icons.graphic_eq_rounded,
+      AvatarAnimationMode.idle => Icons.chat_bubble_rounded,
+    };
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        shape: BoxShape.circle,
+        boxShadow: const [BoxShadow(blurRadius: 8, spreadRadius: 1)],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Icon(icon, color: Colors.white, size: 15),
+      ),
+    );
+  }
+}
+
+class _InteractiveAvatarPainter extends CustomPainter {
+  const _InteractiveAvatarPainter({
+    required this.preset,
+    required this.mode,
+    required this.t,
+    required this.accent,
+    required this.showBody,
+    required this.hasLegacyImage,
+  });
+
+  final AvatarPreset preset;
+  final AvatarAnimationMode mode;
+  final double t;
+  final Color accent;
+  final bool showBody;
+  final bool hasLegacyImage;
+
+  bool get isRobot => preset.name.startsWith('robot');
+  bool get isFemale => preset.name.startsWith('woman');
+  bool get isHijab => preset == AvatarPreset.womanHijabLight || preset == AvatarPreset.womanHijabDark;
+  bool get isDarkSkin => preset == AvatarPreset.womanDark || preset == AvatarPreset.womanHijabDark || preset == AvatarPreset.manDark;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final s = size.width;
+    final c = Offset(s / 2, s / 2);
+    final active = mode != AvatarAnimationMode.idle;
+    final motion = math.sin(t * math.pi * 2);
+    final eyeShift = mode == AvatarAnimationMode.thinking ? motion * s * .018 :
+        mode == AvatarAnimationMode.listening ? s * .008 : 0;
+    final mouthOpen = mode == AvatarAnimationMode.speaking ? (.025 + (motion + 1) * .025) * s : .016 * s;
+
+    final bg = Paint()
+      ..shader = RadialGradient(
+        colors: [
+          accent.withOpacity(.34),
+          accent.withOpacity(.08),
+          Colors.transparent,
+        ],
+      ).createShader(Rect.fromCircle(center: c, radius: s * .52));
+    canvas.drawCircle(c, s * .50, bg);
+
+    if (isRobot) {
+      _paintRobot(canvas, size, c, motion, eyeShift, mouthOpen, active);
+    } else {
+      _paintHuman(canvas, size, c, motion, eyeShift, mouthOpen, active);
+    }
+
+    if (hasLegacyImage) {
+      final p = Paint()..color = accent.withOpacity(.35);
+      canvas.drawCircle(Offset(s * .82, s * .18), s * .035, p);
+    }
+
+    if (mode == AvatarAnimationMode.thinking) {
+      for (int i = 0; i < 3; i++) {
+        canvas.drawCircle(
+          Offset(s * (.73 + i * .06), s * (.78 - (i % 2) * .02)),
+          s * (.018 + i * .004),
+          Paint()..color = accent.withOpacity(.75),
+        );
+      }
+    }
+
+    if (mode == AvatarAnimationMode.listening) {
+      final ring = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = s * .014
+        ..color = accent.withOpacity(.50);
+      canvas.drawCircle(c, s * .46, ring);
+    }
+  }
+
+  void _paintRobot(Canvas canvas, Size size, Offset c, double motion, double eyeShift, double mouthOpen, bool active) {
+    final s = size.width;
+    final body = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          preset == AvatarPreset.robotClassic ? const Color(0xFFE6E8F1) : const Color(0xFFEAF8FF),
+          const Color(0xFFADB5CF),
+        ],
+      ).createShader(Rect.fromLTWH(s * .2, s * .25, s * .6, s * .55));
+    final dark = Paint()..color = const Color(0xFF22283A);
+    final glow = Paint()
+      ..shader = RadialGradient(colors: [accent, accent.withOpacity(.30)])
+          .createShader(Rect.fromCircle(center: c, radius: s * .2));
+
+    if (showBody) {
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromLTWH(s * .27, s * .64, s * .46, s * .28), Radius.circular(s * .10)),
+        Paint()..color = const Color(0xFF30384E),
+      );
+      final armPaint = Paint()..color = const Color(0xFF8D96B0);
+      final armOffset = motion * s * .022;
+      _drawArm(canvas, Offset(s * .23, s * .71), Offset(s * .08, s * (.62 + armOffset / s)), armPaint, false);
+      _drawArm(canvas, Offset(s * .77, s * .71), Offset(s * .92, s * (.62 - armOffset / s)), armPaint, true);
+    }
+
+    canvas.drawCircle(Offset(c.dx, c.dy + s * .01), s * .30, body);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(center: Offset(c.dx, c.dy), width: s * .48, height: s * .34),
+        Radius.circular(s * .10),
+      ),
+      Paint()..color = const Color(0xFF252B3D),
+    );
+
+    final eyeY = c.dy - s * .045;
+    canvas.drawCircle(Offset(c.dx - s * .105 + eyeShift, eyeY), s * .046, glow);
+    canvas.drawCircle(Offset(c.dx + s * .105 + eyeShift, eyeY), s * .046, glow);
+
+    final mouthRect = Rect.fromCenter(center: Offset(c.dx, c.dy + s * .09), width: s * .12, height: mouthOpen);
+    canvas.drawRRect(RRect.fromRectAndRadius(mouthRect, Radius.circular(s * .025)), dark);
+
+    final antenna = Paint()
+      ..color = dark.color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = s * .014
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(Offset(c.dx, s * .23), Offset(c.dx, s * .13), antenna);
+    canvas.drawCircle(Offset(c.dx, s * .115), s * .028, glow);
+    canvas.drawCircle(Offset(s * .22, s * .48), s * .035, glow);
+    canvas.drawCircle(Offset(s * .78, s * .48), s * .035, glow);
+
+    if (active) {
+      final shine = Paint()..color = Colors.white.withOpacity(.22);
+      canvas.drawOval(Rect.fromLTWH(s * .28, s * .30, s * .20, s * .09), shine);
+    }
+  }
+
+  void _paintHuman(Canvas canvas, Size size, Offset c, double motion, double eyeShift, double mouthOpen, bool active) {
+    final s = size.width;
+    final skin = isDarkSkin ? const Color(0xFF855B49) : const Color(0xFFF0BE9A);
+    final skinShade = isDarkSkin ? const Color(0xFF5C3B30) : const Color(0xFFC78667);
+    final hair = isDarkSkin ? const Color(0xFF211B1B) : const Color(0xFF4B362A);
+    final outfit = isFemale ? const Color(0xFF7A5AF8) : const Color(0xFF3164C7);
+    final handPaint = Paint()..color = skin;
+
+    if (showBody) {
+      final shoulder = RRect.fromRectAndRadius(
+        Rect.fromLTWH(s * .20, s * .62, s * .60, s * .32),
+        Radius.circular(s * .18),
+      );
+      canvas.drawRRect(shoulder, Paint()..shader = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [outfit.withOpacity(.92), outfit.withOpacity(.58)],
+      ).createShader(shoulder.outerRect));
+
+      final wave = mode == AvatarAnimationMode.speaking || mode == AvatarAnimationMode.listening;
+      final leftHandY = wave ? s * (.58 + motion * .055) : s * .74;
+      final rightHandY = wave ? s * (.55 - motion * .045) : s * .74;
+      _drawArm(canvas, Offset(s * .25, s * .73), Offset(s * .10, leftHandY), Paint()..color = outfit, false);
+      _drawArm(canvas, Offset(s * .75, s * .73), Offset(s * .90, rightHandY), Paint()..color = outfit, true);
+      canvas.drawCircle(Offset(s * .10, leftHandY), s * .045, handPaint);
+      canvas.drawCircle(Offset(s * .90, rightHandY), s * .045, handPaint);
+      _drawFinger(canvas, Offset(s * .90, rightHandY), motion);
+    }
+
+    final neck = RRect.fromRectAndRadius(Rect.fromLTWH(s * .44, s * .48, s * .12, s * .17), Radius.circular(s * .04));
+    canvas.drawRRect(neck, Paint()..color = skinShade);
+
+    final head = Rect.fromLTWH(s * .27, s * .20, s * .46, s * .44);
+    final headPaint = Paint()..shader = RadialGradient(
+      center: const Alignment(-.3, -.45),
+      radius: 1.0,
+      colors: [skin.withOpacity(.98), skinShade.withOpacity(.98)],
+    ).createShader(head);
+    canvas.drawOval(head, headPaint);
+
+    if (isHijab) {
+      final hijabColor = preset == AvatarPreset.womanHijabDark ? const Color(0xFF26344B) : const Color(0xFFF0F0F5);
+      final scarf = Path()
+        ..moveTo(s * .24, s * .56)
+        ..quadraticBezierTo(s * .22, s * .24, s * .50, s * .16)
+        ..quadraticBezierTo(s * .79, s * .24, s * .76, s * .56)
+        ..quadraticBezierTo(s * .50, s * .70, s * .24, s * .56)
+        ..close();
+      canvas.drawPath(scarf, Paint()..color = hijabColor);
+      canvas.drawOval(Rect.fromLTWH(s * .30, s * .24, s * .40, s * .35), headPaint);
+      canvas.drawArc(Rect.fromLTWH(s * .25, s * .16, s * .50, s * .50), .15, 2.85, false, Paint()
+        ..color = hijabColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = s * .08);
+    } else {
+      final hairPath = Path()
+        ..moveTo(s * .26, s * .39)
+        ..quadraticBezierTo(s * .22, s * .17, s * .50, s * .13)
+        ..quadraticBezierTo(s * .79, s * .16, s * .74, s * .39)
+        ..lineTo(s * .69, s * .27)
+        ..quadraticBezierTo(s * .50, s * .19, s * .31, s * .27)
+        ..close();
+      canvas.drawPath(hairPath, Paint()..color = hair);
+      if (isFemale) {
+        canvas.drawOval(Rect.fromLTWH(s * .20, s * .28, s * .16, s * .34), Paint()..color = hair);
+        canvas.drawOval(Rect.fromLTWH(s * .64, s * .28, s * .16, s * .34), Paint()..color = hair);
+      }
+    }
+
+    final eyeY = s * .39;
+    final eye = Paint()..color = const Color(0xFF2B2430);
+    canvas.drawOval(Rect.fromCenter(center: Offset(s * .40 + eyeShift, eyeY), width: s * .055, height: s * .035), eye);
+    canvas.drawOval(Rect.fromCenter(center: Offset(s * .60 + eyeShift, eyeY), width: s * .055, height: s * .035), eye);
+
+    final brow = Paint()
+      ..color = hair
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = s * .013
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(Offset(s * .34, s * .34), Offset(s * .44, s * .33), brow);
+    canvas.drawLine(Offset(s * .56, s * .33), Offset(s * .66, s * .34), brow);
+
+    final mouth = Rect.fromCenter(center: Offset(s * .50, s * .49), width: s * .11, height: mouthOpen);
+    canvas.drawRRect(RRect.fromRectAndRadius(mouth, Radius.circular(s * .018)), Paint()..color = const Color(0xFF713E42));
+
+    if (active) {
+      canvas.drawOval(Rect.fromLTWH(s * .32, s * .25, s * .12, s * .05), Paint()..color = Colors.white.withOpacity(.18));
+    }
+
+    // Small animated "video call" sparkle.
+    if (mode == AvatarAnimationMode.speaking) {
+      canvas.drawCircle(Offset(s * .84, s * .23), s * .022, Paint()..color = accent.withOpacity(.9));
+      canvas.drawCircle(Offset(s * .88, s * .27), s * .012, Paint()..color = accent.withOpacity(.65));
+    }
+  }
+
+  void _drawArm(Canvas canvas, Offset from, Offset to, Paint paint, bool mirrored) {
+    final width = math.max(4.0, paint.strokeWidth == 0 ? 12 : paint.strokeWidth);
+    final p = Paint()
+      ..color = paint.color
+      ..strokeWidth = width
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(from, to, p);
+    canvas.drawCircle(to, width * .46, p);
+  }
+
+  void _drawFinger(Canvas canvas, Offset hand, double motion) {
+    final p = Paint()
+      ..color = const Color(0xFF855B49)
+      ..strokeWidth = 2.1
+      ..strokeCap = StrokeCap.round;
+    for (int i = 0; i < 3; i++) {
+      final dx = (i - 1) * 5.0;
+      canvas.drawLine(hand + Offset(dx, -3), hand + Offset(dx + motion * 2, -12 - i * 2), p);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _InteractiveAvatarPainter oldDelegate) =>
+      oldDelegate.preset != preset ||
+      oldDelegate.mode != mode ||
+      oldDelegate.t != t ||
+      oldDelegate.accent != accent ||
+      oldDelegate.showBody != showBody ||
+      oldDelegate.hasLegacyImage != hasLegacyImage;
+}
+
+enum AvatarAnimationMode { idle, thinking, listening, speaking }
+
+class AvatarOption {
+  const AvatarOption({required this.preset, required this.title, required this.subtitle, required this.icon});
+
+  final AvatarPreset preset;
+  final String title;
+  final String subtitle;
+  final IconData icon;
+}
+
+const avatarOptions = [
+  AvatarOption(preset: AvatarPreset.robotNeon, title: 'Ø±ÙˆØ¨ÙˆØª Neon', subtitle: 'Ù…Ø³ØªÙ‚Ø¨Ù„ÙŠ', icon: Icons.smart_toy_rounded),
+  AvatarOption(preset: AvatarPreset.robotClassic, title: 'Ø±ÙˆØ¨ÙˆØª Classic', subtitle: 'Ù‡Ø§Ø¯Ø¦ ÙˆØ§Ø­ØªØ±Ø§ÙÙŠ', icon: Icons.android_rounded),
+  AvatarOption(preset: AvatarPreset.robotFriendly, title: 'Ø±ÙˆØ¨ÙˆØª Friendly', subtitle: 'Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠ', icon: Icons.sentiment_satisfied_alt_rounded),
+  AvatarOption(preset: AvatarPreset.womanHijabLight, title: 'Ø§Ù…Ø±Ø£Ø© Ù…Ø­Ø¬Ø¨Ø©', subtitle: 'Ø¨Ø´Ø±Ø© ÙØ§ØªØ­Ø©', icon: Icons.face_3_rounded),
+  AvatarOption(preset: AvatarPreset.womanHijabDark, title: 'Ø§Ù…Ø±Ø£Ø© Ù…Ø­Ø¬Ø¨Ø©', subtitle: 'Ø¨Ø´Ø±Ø© Ø¯Ø§ÙƒÙ†Ø©', icon: Icons.face_3_rounded),
+  AvatarOption(preset: AvatarPreset.womanLight, title: 'Ø§Ù…Ø±Ø£Ø©', subtitle: 'Ø¨Ø´Ø±Ø© ÙØ§ØªØ­Ø©', icon: Icons.face_2_rounded),
+  AvatarOption(preset: AvatarPreset.womanDark, title: 'Ø§Ù…Ø±Ø£Ø©', subtitle: 'Ø¨Ø´Ø±Ø© Ø¯Ø§ÙƒÙ†Ø©', icon: Icons.face_2_rounded),
+  AvatarOption(preset: AvatarPreset.manLight, title: 'Ø±Ø¬Ù„', subtitle: 'Ø¨Ø´Ø±Ø© ÙØ§ØªØ­Ø©', icon: Icons.face_rounded),
+  AvatarOption(preset: AvatarPreset.manDark, title: 'Ø±Ø¬Ù„', subtitle: 'Ø¨Ø´Ø±Ø© Ø¯Ø§ÙƒÙ†Ø©', icon: Icons.face_rounded),
+];
+
+
+
+==================================================
+FILE: pubspec.yaml
+==================================================
+
+name: siko_ai
+description: Siko - Arabic-first smart language learning and conversation assistant.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  http: ^1.2.0
+  image_picker: ^1.1.0
+  shared_preferences: ^2.2.0
+  speech_to_text: ^7.0.0
+  flutter_tts: ^4.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+
+
+
+==================================================
+FILE: README.md
+==================================================
+
+# Siko AI â€” Flutter MVP
+
+Siko is an Arabic-first smart assistant prototype focused on:
+
+- French learning in Arabic
+- American/British English learning in Arabic
+- Text chat with Siko
+- Voice input (device speech recognition)
+- Text-to-speech replies
+- Custom assistant name and owner name
+- Robot avatar by default
+- User-selected image avatar (human, animal, character, object, etc.)
+- Basic local persistence
+
+## What is already included
+
+This repository contains the Flutter application source and the UX structure. The app runs in **Demo/Offline AI mode** without any API key. In this mode, chat replies come from a small local rule-based engine so you can test the UI immediately.
+
+An optional Gemini REST integration is also included. Add the API key in `lib/config/app_config.dart` only on a personal/dev build. Do not commit a real API key to a public repository.
+
+## Requirements
+
+- Flutter 3.44+ / Dart 3.12+
+- Android SDK installed
+- Android 10+ device recommended
+- VS Code with Flutter and Dart extensions
+
+Flutter currently supports Android deployment from API 24 upward; this project targets Android 10+ (API 29+) for the app experience.
+
+## First setup on Windows
+
+The source archive intentionally keeps native Android scaffolding generated by Flutter out of the zip so the project stays clean and version-friendly. From Windows, run the included setup script once:
+
+```powershell
+.\tools\setup_windows.ps1
+```
+
+or double-click:
+
+```text
+setup_windows.bat
+```
+
+The script runs `flutter create` to generate the native platform scaffolding and adds microphone permission required by speech recognition.
+
+Then:
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Optional Gemini mode
+
+Open:
+
+`lib/config/app_config.dart`
+
+and set your personal development API key. The app will automatically use Gemini when a non-empty key is configured; otherwise it remains in Demo/Offline mode.
+
+The REST endpoint/model are isolated in `lib/services/ai_service.dart` so they can be replaced later without changing the UI.
+
+## Voice
+
+The app uses the device speech-recognition service through `speech_to_text`, and the Android Text-to-Speech engine through `flutter_tts`. Availability depends on the installed Android speech/voice engines and supported locales.
+
+## Avatar system
+
+Default mode: animated vector-style robot drawn in Flutter (no external image required).
+
+Custom mode: the user can pick any image from the phone â€” a human face, animal, cartoon, logo, object, or anything else. The app adds a subtle speaking/listening animation around the image.
+
+Important: the current MVP does **not** perform true facial lip-sync on arbitrary uploaded faces. That is planned as a later AI/avatar module.
+
+## Project structure
+
+```text
+lib/
+  main.dart
+  app.dart
+  config/
+  models/
+  services/
+  screens/
+  widgets/
+  theme/
+assets/
+tools/
+```
+
+## Suggested next milestones
+
+1. Connect Gemini and tune Siko's system prompt.
+2. Add structured lesson engine and CEFR progression.
+3. Add pronunciation scoring.
+4. Add persistent chat history.
+5. Add avatar emotions and richer animations.
+6. Add true lip-sync / talking avatar as a separate module.
+7. Add export/build pipeline for APK and AAB.
+
+## Avatar roadmap
+
+- Phase 1: built-in animated robot + any gallery image.
+- Phase 2: avatar emotions (happy, thinking, surprised, listening, speaking).
+- Phase 3: lip-sync driven by TTS timing.
+- Phase 4: optional AI-generated animated avatar provider. This phase should be treated as an optional cloud feature because true arbitrary-image talking avatars are not a lightweight offline Android feature.
+
+
+
+==================================================
+FILE: test\user_profile_test.dart
+==================================================
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:siko_ai/models/user_profile.dart';
+
+void main() {
+  test('UserProfile round-trips through json', () {
+    const profile = UserProfile(
+      firstName: 'Ù…Ø­Ù…Ø¯',
+      lastName: 'Ø³Ù„Ø·Ø§Ù†',
+      gender: UserGender.male,
+      assistantName: 'Ø³ÙŠÙƒÙˆ',
+      learningLanguage: 'English',
+      englishVariant: 'American',
+      avatarPreset: AvatarPreset.robotNeon,
+    );
+
+    final decoded = UserProfile.fromJson(profile.toJson());
+    expect(decoded.userName, 'Ù…Ø­Ù…Ø¯ Ø³Ù„Ø·Ø§Ù†');
+    expect(decoded.assistantName, 'Ø³ÙŠÙƒÙˆ');
+    expect(decoded.gender, UserGender.male);
+    expect(decoded.avatarPreset, AvatarPreset.robotNeon);
+  });
+}
+
+
+
+==================================================
+FILE: tools\android_manifest_patch.xml
+==================================================
+
+<!-- Add these entries to android/app/src/main/AndroidManifest.xml -->
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.BLUETOOTH" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+<queries>
+    <intent>
+        <action android:name="android.speech.RecognitionService" />
+    </intent>
+    <intent>
+        <action android:name="android.intent.action.TTS_SERVICE" />
+    </intent>
+</queries>
+
+
+
+==================================================
+FILE: web\manifest.json
+==================================================
+
+{
+  "name": "Siko AI",
+  "short_name": "Siko",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F6F7FB",
+  "theme_color": "#6758F5",
+  "description": "Siko AI - Arabic-first smart learning and conversation assistant."
+}
+
