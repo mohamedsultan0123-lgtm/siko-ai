@@ -297,9 +297,42 @@ class _InteractiveAvatarPainter extends CustomPainter {
         Paint()..color = const Color(0xFF30384E),
       );
       final armPaint = Paint()..color = const Color(0xFF8D96B0);
-      final armOffset = motion * s * .022;
-      _drawArm(canvas, Offset(s * .23, s * .71), Offset(s * .08, s * (.62 + armOffset / s)), armPaint, false);
-      _drawArm(canvas, Offset(s * .77, s * .71), Offset(s * .92, s * (.62 - armOffset / s)), armPaint, true);
+      final double armOffset =
+    (motion * s * 0.022).toDouble();
+
+final double leftArmY =
+    (s * (0.62 + armOffset / s)).toDouble();
+
+final double rightArmY =
+    (s * (0.62 - armOffset / s)).toDouble();
+
+_drawArm(
+  canvas,
+  Offset(
+    (s * 0.23).toDouble(),
+    (s * 0.71).toDouble(),
+  ),
+  Offset(
+    (s * 0.08).toDouble(),
+    leftArmY,
+  ),
+  armPaint,
+  false,
+);
+
+_drawArm(
+  canvas,
+  Offset(
+    (s * 0.77).toDouble(),
+    (s * 0.71).toDouble(),
+  ),
+  Offset(
+    (s * 0.92).toDouble(),
+    rightArmY,
+  ),
+  armPaint,
+  true,
+);
     }
 
     canvas.drawCircle(Offset(c.dx, c.dy + s * .01), s * .30, body);
@@ -439,16 +472,22 @@ class _InteractiveAvatarPainter extends CustomPainter {
 ) {
   final double width = math.max<double>(
     4.0,
-    paint.strokeWidth == 0.0 ? 12.0 : paint.strokeWidth,
+    paint.strokeWidth == 0.0
+        ? 12.0
+        : paint.strokeWidth,
   );
 
-  final p = Paint()
+  final Paint armPaint = Paint()
     ..color = paint.color
     ..strokeWidth = width
     ..strokeCap = StrokeCap.round;
 
-  canvas.drawLine(from, to, p);
-  canvas.drawCircle(to, width * 0.46, p);
+  canvas.drawLine(from, to, armPaint);
+  canvas.drawCircle(
+    to,
+    width * 0.46,
+    armPaint,
+  );
 }
 
   void _drawFinger(Canvas canvas, Offset hand, double motion) {
